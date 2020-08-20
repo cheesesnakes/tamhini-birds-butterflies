@@ -1,0 +1,327 @@
+---
+title: "Shifts in bird and butterfly communities of Tamhini Ghat"
+output:
+  html_document:
+    css: style.css
+    df_print: kable
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+    toc_depth: 2
+    number_sections: yes
+subtitle: Analysis for manuscript
+Author: Shawn Dsouza
+---
+
+
+# Introduction
+
+This file was last update on `r Sys.Date()`
+
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
+
+options(max.print="75")
+
+knitr::opts_chunk$set(echo = FALSE, error = T, warning = F, message = F, tidy = T, 
+                      cache = T, dpi = 300, fig.align = "center", fig.height = 4.5, fig.width = 8)
+
+#Required libraries
+
+library(tidyverse)
+library(broom)
+library(lubridate)
+library(viridis)
+library(RColorBrewer)
+
+#Data import
+
+abn <- read.csv("./data/Tamhini_birds_butterflies.csv")
+transects <- read.csv("./data/Transect Co-ordinates.csv")
+
+# adding relevant variables
+
+abn <- abn%>%
+  mutate(Year = year(dmy(Date)))%>% #adding year of sampling
+  mutate(Study = case_when(Year %in% c(1998, 1999, 2000, 2001) ~ "1998 - 2000", #previous study
+                           Year %in% c(2016, 2017) ~ "2016 - 2017"))%>% #current study
+  mutate(Transect = as.character(Transect),
+         Transect = ifelse(Transect == "T6A" | Transect == "T6B", "T6", Transect),
+         Transect = as.factor(Transect))
+
+# cleaning abundance
+abn <- abn%>%
+  filter(!is.na(Abundance) &
+         Species != "" & #removing samples with no species
+         Species != " " &
+          Species != "Unidentified" & #removing unidentified species
+         substr(Species, 1, 1) != "?")%>% #83 obs removed
+  droplevels()
+
+theme_set(theme_bw()+
+            theme(legend.position = "top",
+                  text = element_text(size = 20)
+                  )
+          )#setting ggplot theme
+```
+
+# Sampling effort
+
+```{r}
+abn%>%
+  group_by(Study, Taxa, Transect)%>%
+  summarise(n = length(unique(Date)))%>%
+  spread(Transect, n)
+```
+
+# Species summary
+
+```{r}
+species <- abn%>%
+  group_by(Taxa, Species, Study, Habitat)%>%
+  summarise(n = sum(Abundance, na.rm = T),
+            Trophic.Guild = last(Guild))%>%
+  group_by(Study, Habitat)%>%
+  mutate(N = sum(n),
+         rel.prop = n/N)%>% # relative proportion in each habitat
+  #filter(rel.prop > 0.01)%>% # species that make up more than 1% of a community
+  complete(nesting(Study, Species), Habitat, fill = list(rel.prop = 0))%>%
+  group_by(Study, Species)%>%
+  mutate(HSI = sd(rel.prop)/mean(rel.prop))%>% #Julliard et al. 2006
+  filter(rel.prop > 0)%>%
+  mutate(#Hab.occ = length(unique(Habitat)), #number of habitats occupied
+         Habitat.Preference = ifelse(length(unique(Habitat)) > 1, 
+                                     "Generalist", 
+                                     as.character(Habitat)) # classifying habitat preference
+         )%>%
+  ungroup()%>%
+  select(Taxa, Study, Species, Trophic.Guild, Habitat.Preference, HSI, Habitat, rel.prop)%>%
+  distinct()%>%
+  spread(Habitat, rel.prop, fill = c(0))
+
+write.csv(species, "./data/Species.csv")
+
+diet_sp <- abn%>%
+  ungroup()%>%
+  select(Taxa, Species, Guild)%>%
+  distinct(.keep_all = F)
+
+write.csv(diet_sp, "./Data/species_diet.csv")
+```
+
+
+# Change in diversity across years
+
+## Species richness
+
+### Across the two studies
+
+```{r}
+abn%>%
+  group_by(Taxa, Study)%>%
+  summarise(richness = length(unique(Species)))%>%
+  spread(Study, richness)
+```
+
+### Across habitats in the two studies
+
+```{r}
+abn%>%
+  group_by(Taxa, Study, Habitat)%>%
+  summarise(richness = length(unique(Species)))%>%
+  spread(Habitat, richness)
+```
+
+## Shannon diversity
+
+```{r fig.height=6}
+
+# Calculating diversity in each site over years
+
+div_year <- abn%>%
+  group_by(Study, Taxa, Transect,  Species)%>%
+  summarise(n = sum(Abundance, na.rm = T))%>%
+  spread(Species, n, fill = c(0))%>%
+  group_by(Study, Taxa, Transect)%>%
+  nest()%>%
+  mutate(H = map_dbl(data, ~vegetarian::d(.[-1], lev = "alpha", q = 1)))%>%
+  select(-data)
+
+# t test
+
+div_year%>%
+  group_by(Taxa)%>%
+  nest()%>%
+  mutate(test = map(data, ~t.test(H ~ Study, data = .)),
+         sumry = map(test, broom::tidy))%>%
+  select(sumry)%>%
+  unnest()
+
+# plot
+
+div_year%>%
+  ggplot(aes(Taxa, H, col = Study, fill = Study))+
+  geom_boxplot(width = 0.25, alpha = 0.5)+
+  labs(y = "Effective number of species")+
+  scale_color_brewer(palette = "Set1")
+  
+```
+
+# Change in composition of species accross years
+
+```{r results=F, fig.height=8}
+
+library(vegan)
+
+# input for vegan
+
+veg_birds <- abn%>%
+  filter(Taxa == "Birds")%>%
+  group_by(Study, Transect, Species)%>%
+  summarise(n = sum(Abundance, na.rm = T))%>%
+  mutate(sample = paste(Study, "_", Transect))%>%
+  group_by(sample)%>%
+  #mutate(N = sum(n, na.rm = T))%>%
+  #filter(N > 0)%>%#removing samples where no species were detected
+  select(sample, Species, n)%>%
+  ungroup()%>%
+  spread(Species, n, fill = c(n = 0))%>%
+  column_to_rownames(var = "sample")
+
+veg_butterfly <- abn%>%
+  filter(Taxa == "Butterflies")%>%
+  group_by(Study, Transect, Species)%>%
+  summarise(n = sum(Abundance, na.rm = T))%>%
+  mutate(sample = paste(Study, "_", Transect))%>%
+  group_by(sample)%>%
+  #mutate(N = sum(n, na.rm = T))%>%
+  #filter(N > 0)%>%#removing samples where no species were detected
+  select(sample, Species, n)%>%
+  ungroup()%>%
+  spread(Species, n, fill = c(n = 0))%>%
+  column_to_rownames(var = "sample")
+
+# sample info
+
+samp_birds <- abn%>%
+  filter(Taxa == "Birds")%>%
+  select(Study, Taxa, Transect, Habitat)%>%
+  distinct()%>%
+  mutate(sample = paste(Study, "_", Transect))
+
+samp_butterfly <- abn%>%
+  filter(Taxa == "Butterflies")%>%
+  select(Study, Taxa, Transect, Habitat)%>%
+  distinct()%>%
+  mutate(sample = paste(Study, "_", Transect))
+
+# ordination
+
+NMDS_birds <- metaMDS(veg_birds, distance = "bray", k = 2, model = "local") # convergence around 278
+
+NMDS_butterfly <- metaMDS(veg_butterfly, distance = "bray", trymax = 1000, k = 2, model = "local") # convergence aroung 150
+
+
+# Extracting scores and adding habitat vars
+
+ord_birds <- data.frame(scores(NMDS_birds))%>%
+  rownames_to_column("sample")%>%
+  left_join(samp_birds, "sample")
+
+ord_butterfly <- data.frame(scores(NMDS_butterfly))%>%
+  rownames_to_column("sample")%>%
+  left_join(samp_butterfly, "sample")
+
+ord <- bind_rows(ord_birds, ord_butterfly)
+
+```
+
+```{r fig.height=6}
+# plotting
+
+ord%>%
+  ggplot(aes(NMDS1, NMDS2, col = Study, fill = Study))+
+  stat_ellipse(level = 0.95, geom = "polygon", linetype = "dashed", size = 1, alpha = 0.3)+
+  geom_point(aes(shape = Habitat), size = 3)+
+  guides(shape = guide_legend(nrow = 2, byrow = T))+
+  scale_color_brewer(palette = "Set1")+
+  facet_wrap(~Taxa)+
+  theme(legend.box = "vertical")
+
+```
+
+```{r}
+#Testing change in composition of birds
+
+adonis(veg_birds ~ Study, data = samp_birds)
+```
+
+```{r}
+#Testing change in composition of butterflies
+
+adonis(veg_butterfly ~ Study, data = samp_butterfly)
+```
+
+# Change in niche width of community
+
+## Trophic niche
+
+```{r fig.height=8}
+diet <- abn%>%
+  group_by(Study, Taxa, Transect,  Guild)%>%
+  summarise(n = sum(Abundance, na.rm = T))%>%
+  #group_by(Study, Taxa, Transect)%>%
+  mutate(N = sum(n))%>%
+  #filter(Guild == "Generalist" | Guild == "Omnivore")%>%
+  mutate(prop.gen = n/N)%>%
+  filter(Guild != "",
+         !is.na(Guild))
+
+diet%>%
+  ggplot(aes(reorder(Guild, prop.gen), prop.gen, col = Study, fill = Study))+
+  geom_boxplot(width = 0.25, alpha = 0.5, position = position_dodge(preserve = "single"))+
+  labs(y = "Relative Proportion", x = "Trophic Guild")+
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  scale_color_brewer(palette = "Set1")+
+  facet_wrap(~Taxa, scales = "free_x", ncol = 1)
+  
+```
+
+## Habitat Niche
+
+```{r}
+CSI.H <- abn%>%
+  select(Study, Transect, Taxa, Species)%>%
+  group_by(Study, Taxa, Transect)%>%
+  distinct()%>%
+  left_join(species, by = c("Study", "Taxa", "Species"))%>%
+  select(Study, Transect, Taxa, Species, HSI)%>%
+  summarise(CSI.H = mean(HSI))
+```
+
+```{r fig.height=6}
+CSI.H%>%
+  ggplot(aes(Taxa, CSI.H, col = Study, fill = Study))+
+  geom_boxplot(width = 0.25, alpha = 0.5)+
+  labs(y = "Community specialisation index \n (Habitat)")+
+  scale_color_brewer(palette = "Set1")
+```
+
+# Seasonal changes in relative abundance
+
+```{r fig.height=6}
+season <- abn%>%
+  mutate(Month = month(dmy(Date), label = T))%>%
+  group_by(Study, Month, Taxa)%>%
+  summarise(n = sum(Abundance, na.rm=T))%>%
+  group_by(Study, Taxa)%>%
+  mutate(N = sum(n),
+         rel.prop = n/N)
+
+season%>%
+  ggplot(aes(Month, rel.prop, col = Taxa, shape = Taxa))+
+  geom_point(size = 3)+
+  geom_path(aes(group = Taxa), size = 1, linetype = "dashed")+
+  scale_color_brewer(palette = "Set1")+
+  facet_wrap(~Study, ncol = 1)
+```
+
