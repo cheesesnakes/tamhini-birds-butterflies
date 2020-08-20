@@ -81,17 +81,18 @@ species <- abn%>%
   summarise(n = sum(Abundance, na.rm = T),
             Trophic.Guild = last(Guild))%>%
   group_by(Study, Habitat)%>%
+  # relative proportion in each habitat
   mutate(N = sum(n),
-         rel.prop = n/N)%>% # relative proportion in each habitat
-  #filter(rel.prop > 0.01)%>% # species that make up more than 1% of a community
+         rel.prop = n/N)%>%
   complete(nesting(Study, Species), Habitat, fill = list(rel.prop = 0))%>%
   group_by(Study, Species)%>%
-  mutate(HSI = sd(rel.prop)/mean(rel.prop))%>% #Julliard et al. 2006
+  # Habitat specialisaiton based on Julliard et al. 2006
+  mutate(HSI = sd(rel.prop)/mean(rel.prop))%>%
   filter(rel.prop > 0)%>%
-  mutate(#Hab.occ = length(unique(Habitat)), #number of habitats occupied
-         Habitat.Preference = ifelse(length(unique(Habitat)) > 1, 
+  # classifying habitat preference 
+  mutate(Habitat.Preference = ifelse(length(unique(Habitat)) > 1, 
                                      "Generalist", 
-                                     as.character(Habitat)) # classifying habitat preference
+                                     as.character(Habitat)) 
          )%>%
   ungroup()%>%
   select(Taxa, Study, Species, Trophic.Guild, Habitat.Preference, HSI, Habitat, rel.prop)%>%
@@ -99,13 +100,6 @@ species <- abn%>%
   spread(Habitat, rel.prop, fill = c(0))
 
 write.csv(species, "./data/Species.csv")
-
-diet_sp <- abn%>%
-  ungroup()%>%
-  select(Taxa, Species, Guild)%>%
-  distinct(.keep_all = F)
-
-write.csv(diet_sp, "./Data/species_diet.csv")
 ```
 
 
@@ -266,6 +260,8 @@ adonis(veg_butterfly ~ Study, data = samp_butterfly)
 ## Trophic niche
 
 ```{r fig.height=8}
+# based on trophic guild
+
 diet <- abn%>%
   group_by(Study, Taxa, Transect,  Guild)%>%
   summarise(n = sum(Abundance, na.rm = T))%>%
@@ -286,6 +282,41 @@ diet%>%
   
 ```
 
+```{r}
+# trophic specialisation based on Juliard et al. 2006
+
+host <- read.csv("./data/butterfly host plants.csv") #host plant data
+
+host <- host%>%
+  rename(Common.Name = ï..Common.Name)
+
+species_TSI <- host%>%
+  mutate(H = length(unique(Hostplant.Family)))%>%
+  group_by(Specific.Epithet)%>%
+  mutate(h = length(unique(Hostplant.Family)))%>%
+  ungroup()%>%
+  mutate(TSI = sqrt((H/h)-1))
+
+CSI.T <- abn%>%
+  select(Study, Transect, Taxa, Species)%>%
+  group_by(Study, Taxa, Transect)%>%
+  distinct()%>%
+  left_join(species_TSI, by = c("Species" = "Common.Name"))%>%
+  select(Study, Transect, Taxa, Species, TSI)%>%
+  summarise(CSI.T = mean(TSI, na.rm = T))
+```
+
+
+```{r}
+fig4b <- CSI.T%>%
+  ggplot(aes(Taxa, CSI.T, col = Study, fill = Study))+
+  geom_boxplot(width = 0.25, alpha = 0.5)+
+  labs(y = "Community specialisation index \n (Trophic)")+
+  scale_color_brewer(palette = "Set1")
+
+fig4b
+```
+
 ## Habitat Niche
 
 ```{r}
@@ -295,17 +326,49 @@ CSI.H <- abn%>%
   distinct()%>%
   left_join(species, by = c("Study", "Taxa", "Species"))%>%
   select(Study, Transect, Taxa, Species, HSI)%>%
-  summarise(CSI.H = mean(HSI))
+  summarise(CSI.H = mean(HSI, na.rm = T))
 ```
 
 ```{r fig.height=6}
-CSI.H%>%
+fig4a <- CSI.H%>%
   ggplot(aes(Taxa, CSI.H, col = Study, fill = Study))+
   geom_boxplot(width = 0.25, alpha = 0.5)+
   labs(y = "Community specialisation index \n (Habitat)")+
   scale_color_brewer(palette = "Set1")
+
+fig4a
 ```
 
+```{r}
+# Figure 4 combined plot
+
+library(grid)
+library(gridExtra)
+
+fig4 <- grid.arrange(fig4a, fig4b, nrow = 1)
+
+ggsave(fig4, filename = "./Figures and Tables/figure 4.png", height = 6, width = 16, dpi = 300)
+```
+
+```{r fig.height=8}
+habitat <- abn%>%
+  left_join(species)%>%
+  group_by(Study, Taxa, Transect, Habitat.Preference)%>%
+  summarise(n = sum(Abundance, na.rm = T))%>%
+  #group_by(Study, Taxa, Transect)%>%
+  mutate(N = sum(n))%>%
+  #filter(Guild == "Generalist" | Guild == "Omnivore")%>%
+  mutate(prop.gen = n/N)
+
+habitat%>%
+  ggplot(aes(reorder(Habitat.Preference, prop.gen), prop.gen, col = Study, fill = Study))+
+  geom_boxplot(width = 0.25, alpha = 0.5, position = position_dodge(preserve = "single"))+
+  labs(y = "Relative Proportion", x = "Habitat Preference")+
+  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
+  scale_color_brewer(palette = "Set1")+
+  facet_wrap(~Taxa, scales = "free_x", ncol = 1)
+```
+ 
 # Seasonal changes in relative abundance
 
 ```{r fig.height=6}
