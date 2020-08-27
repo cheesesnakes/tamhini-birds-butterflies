@@ -35,8 +35,8 @@ library(RColorBrewer)
 
 #Data import
 
-abn <- read.csv("./data/Tamhini_birds_butterflies.csv")
-transects <- read.csv("./data/Transect Co-ordinates.csv")
+abn <- read.csv("./Data/Abundance.csv")
+transects <- read.csv("./Data/Transects.csv")
 
 # adding relevant variables
 
@@ -99,7 +99,7 @@ species <- abn%>%
   distinct()%>%
   spread(Habitat, rel.prop, fill = c(0))
 
-write.csv(species, "./data/Species.csv")
+write.csv(species, "./Figures and Tables/Species.csv")
 ```
 
 
@@ -285,15 +285,21 @@ diet%>%
 ```{r}
 # trophic specialisation based on Juliard et al. 2006
 
-host <- read.csv("./data/butterfly host plants.csv") #host plant data
+host <- read.csv("./Data/Butterflies_host plant.csv") #host plant data
 
-host <- host%>%
-  rename(Common.Name = ï..Common.Name)
-
-species_TSI <- host%>%
+butterflies_TSI <- host%>%
   mutate(H = length(unique(Hostplant.Family)))%>%
   group_by(Specific.Epithet)%>%
   mutate(h = length(unique(Hostplant.Family)))%>%
+  ungroup()%>%
+  mutate(TSI = sqrt((H/h)-1))
+
+diet <- read.csv("./Data/Birds_diet.csv")
+
+birds_TSI <- diet%>%
+  mutate(H = length(unique(Prey)))%>%
+  group_by(Specific.Epithet)%>%
+  mutate(h = length(unique(Prey)))%>%
   ungroup()%>%
   mutate(TSI = sqrt((H/h)-1))
 
@@ -301,7 +307,9 @@ CSI.T <- abn%>%
   select(Study, Transect, Taxa, Species)%>%
   group_by(Study, Taxa, Transect)%>%
   distinct()%>%
-  left_join(species_TSI, by = c("Species" = "Common.Name"))%>%
+  left_join(butterflies_TSI, by = c("Species" = "Common.Name"))%>%
+  left_join(birds_TSI, by = c("Species" = "Common.Name"))%>%
+  mutate(TSI = ifelse(is.na(TSI.x), TSI.y, TSI.x))%>%
   select(Study, Transect, Taxa, Species, TSI)%>%
   summarise(CSI.T = mean(TSI, na.rm = T))
 ```
@@ -312,7 +320,8 @@ fig4b <- CSI.T%>%
   ggplot(aes(Taxa, CSI.T, col = Study, fill = Study))+
   geom_boxplot(width = 0.25, alpha = 0.5)+
   labs(y = "Community specialisation index \n (Trophic)")+
-  scale_color_brewer(palette = "Set1")
+  scale_color_brewer(palette = "Set1")+
+  scale_y_sqrt()
 
 fig4b
 ```
@@ -339,36 +348,7 @@ fig4a <- CSI.H%>%
 fig4a
 ```
 
-```{r}
-# Figure 4 combined plot
 
-library(grid)
-library(gridExtra)
-
-fig4 <- grid.arrange(fig4a, fig4b, nrow = 1)
-
-ggsave(fig4, filename = "./Figures and Tables/figure 4.png", height = 6, width = 16, dpi = 300)
-```
-
-```{r fig.height=8}
-habitat <- abn%>%
-  left_join(species)%>%
-  group_by(Study, Taxa, Transect, Habitat.Preference)%>%
-  summarise(n = sum(Abundance, na.rm = T))%>%
-  #group_by(Study, Taxa, Transect)%>%
-  mutate(N = sum(n))%>%
-  #filter(Guild == "Generalist" | Guild == "Omnivore")%>%
-  mutate(prop.gen = n/N)
-
-habitat%>%
-  ggplot(aes(reorder(Habitat.Preference, prop.gen), prop.gen, col = Study, fill = Study))+
-  geom_boxplot(width = 0.25, alpha = 0.5, position = position_dodge(preserve = "single"))+
-  labs(y = "Relative Proportion", x = "Habitat Preference")+
-  scale_x_discrete(guide = guide_axis(n.dodge = 2))+
-  scale_color_brewer(palette = "Set1")+
-  facet_wrap(~Taxa, scales = "free_x", ncol = 1)
-```
- 
 # Seasonal changes in relative abundance
 
 ```{r fig.height=6}
