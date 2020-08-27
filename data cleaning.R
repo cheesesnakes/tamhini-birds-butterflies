@@ -52,3 +52,15 @@ abundance <- abundance%>%
   rename(Abundance = No..of.Individuals)
 
 write.csv(abundance, "./Data/Tamhini_birds_butterflies.csv")
+
+# Bird diet data
+
+bird_diet <- read.csv("./Data/Birds_diet.csv")
+
+d <- bird_diet%>%
+  mutate(Prey = strsplit(x = Prey.Items, '.', fixed = T))%>%
+  unnest()%>%
+  select(Common.Name, Specific.Epithet, Guild, Foraging.Type, Prey, Remarks)
+
+write.csv(d, "./Data/birds_prey_long.csv")
+
