@@ -63,4 +63,3 @@ d <- bird_diet%>%
   select(Common.Name, Specific.Epithet, Guild, Foraging.Type, Prey, Remarks)
 
 write.csv(d, "./Data/birds_prey_long.csv")
-
