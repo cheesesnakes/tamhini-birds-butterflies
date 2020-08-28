@@ -63,3 +63,31 @@ d <- bird_diet%>%
   select(Common.Name, Specific.Epithet, Guild, Foraging.Type, Prey, Remarks)
 
 write.csv(d, "./Data/birds_prey_long.csv")
+
+# Adding specific epithet to abundance data
+
+ab <- read.csv("./Data/Abundance.csv")
+
+sp_but <- read.csv("./Data/Butterflies_host plant.csv")
+
+sp_bird <- read.csv("./Data/Birds_diet.csv")
+
+sp <- sp_but%>%
+  full_join(sp_bird)%>%
+  select(Common.Name, Specific.Epithet)%>%
+  distinct()
+
+ab <- ab%>%
+  left_join(sp, by = c("Species" = "Common.Name"))
+
+write.csv(ab, "./Data/Abundance_280820.csv")
+
+# adding guild to host plant data
+
+host <- read.csv("./Data/Butterflies_host plant.csv")
+g <- read.csv("./Data/species_diet.csv")
+
+host <- host%>%
+  left_join(g, by = c("Common.Name"))
+
+write.csv(host, "./Data/Butterflies_host plant_280820.csv", row.names = F)

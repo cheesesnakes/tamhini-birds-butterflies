@@ -35,7 +35,7 @@ library(RColorBrewer)
 
 #Data import
 
-abn <- read.csv("./Data/Abundance.csv")
+abn <- read.csv("./Data/Abundance_280820.csv")
 transects <- read.csv("./Data/Transects.csv")
 
 # adding relevant variables
@@ -48,13 +48,16 @@ abn <- abn%>%
          Transect = ifelse(Transect == "T6A" | Transect == "T6B", "T6", Transect),
          Transect = as.factor(Transect))
 
+transects <- transects%>%
+  mutate(Transect = as.factor(Transect))
+
 # cleaning abundance
 abn <- abn%>%
   filter(!is.na(Abundance) &
-         Species != "" & #removing samples with no species
-         Species != " " &
-          Species != "Unidentified" & #removing unidentified species
-         substr(Species, 1, 1) != "?")%>% #83 obs removed
+         Specific.Epithet != "" & #removing samples with no species
+         Specific.Epithet != " " &
+          Specific.Epithet != "Unidentified" & #removing unidentified species
+         substr(Specific.Epithet, 1, 1) != "?")%>% #83 obs removed
   droplevels()
 
 theme_set(theme_bw()+
@@ -62,9 +65,21 @@ theme_set(theme_bw()+
                   text = element_text(size = 20)
                   )
           )#setting ggplot theme
+
+# function for t-test reporting
+
+tstats <- function(x){
+  x%>%
+    rename('1998-2001' = estimate1,
+         '2016-2017' = estimate2)%>%
+    select(`1998-2001`, `2016-2017`, parameter, statistic, p.value)
+}
+
 ```
 
 # Sampling effort
+
+No. of visits to each transect/site.
 
 ```{r}
 abn%>%
@@ -73,35 +88,7 @@ abn%>%
   spread(Transect, n)
 ```
 
-# Species summary
-
-```{r}
-species <- abn%>%
-  group_by(Taxa, Species, Study, Habitat)%>%
-  summarise(n = sum(Abundance, na.rm = T),
-            Trophic.Guild = last(Guild))%>%
-  group_by(Study, Habitat)%>%
-  # relative proportion in each habitat
-  mutate(N = sum(n),
-         rel.prop = n/N)%>%
-  complete(nesting(Study, Species), Habitat, fill = list(rel.prop = 0))%>%
-  group_by(Study, Species)%>%
-  # Habitat specialisaiton based on Julliard et al. 2006
-  mutate(HSI = sd(rel.prop)/mean(rel.prop))%>%
-  filter(rel.prop > 0)%>%
-  # classifying habitat preference 
-  mutate(Habitat.Preference = ifelse(length(unique(Habitat)) > 1, 
-                                     "Generalist", 
-                                     as.character(Habitat)) 
-         )%>%
-  ungroup()%>%
-  select(Taxa, Study, Species, Trophic.Guild, Habitat.Preference, HSI, Habitat, rel.prop)%>%
-  distinct()%>%
-  spread(Habitat, rel.prop, fill = c(0))
-
-write.csv(species, "./Figures and Tables/Species.csv")
-```
-
+Uneveness in sampling effort across sites in studies may bias estimates of change.
 
 # Change in diversity across years
 
@@ -112,18 +99,25 @@ write.csv(species, "./Figures and Tables/Species.csv")
 ```{r}
 abn%>%
   group_by(Taxa, Study)%>%
-  summarise(richness = length(unique(Species)))%>%
+  summarise(richness = length(unique(Specific.Epithet)))%>%
   spread(Study, richness)
 ```
 
-### Across habitats in the two studies
+More species of bothe taxa were encountered in current study compared to the previous study.
+
+### Across sites in the two studies
+
+No. of species encountered across sites sampled in the two studies.
 
 ```{r}
 abn%>%
-  group_by(Taxa, Study, Habitat)%>%
-  summarise(richness = length(unique(Species)))%>%
-  spread(Habitat, richness)
+  left_join(transects, by = c("Transect"))%>%
+  group_by(Taxa, Study, Transect)%>%
+  summarise(richness = length(unique(Specific.Epithet)))%>%
+  spread(Transect, richness)
 ```
+
+Fewer species were encountered in sites with lower effort in the previous study, i.e., T5 and T6. 
 
 ## Shannon diversity
 
@@ -132,9 +126,9 @@ abn%>%
 # Calculating diversity in each site over years
 
 div_year <- abn%>%
-  group_by(Study, Taxa, Transect,  Species)%>%
+  group_by(Study, Taxa, Transect,  Specific.Epithet)%>%
   summarise(n = sum(Abundance, na.rm = T))%>%
-  spread(Species, n, fill = c(0))%>%
+  spread(Specific.Epithet, n, fill = c(0))%>%
   group_by(Study, Taxa, Transect)%>%
   nest()%>%
   mutate(H = map_dbl(data, ~vegetarian::d(.[-1], lev = "alpha", q = 1)))%>%
@@ -148,8 +142,10 @@ div_year%>%
   mutate(test = map(data, ~t.test(H ~ Study, data = .)),
          sumry = map(test, broom::tidy))%>%
   select(sumry)%>%
-  unnest()
-
+  unnest()%>%
+  tstats()
+  
+  
 # plot
 
 div_year%>%
@@ -159,6 +155,8 @@ div_year%>%
   scale_color_brewer(palette = "Set1")
   
 ```
+
+The first order diversity of both taxa has increased *significantly* across the two surveys.
 
 # Change in composition of species accross years
 
@@ -170,39 +168,41 @@ library(vegan)
 
 veg_birds <- abn%>%
   filter(Taxa == "Birds")%>%
-  group_by(Study, Transect, Species)%>%
+  group_by(Study, Transect, Specific.Epithet)%>%
   summarise(n = sum(Abundance, na.rm = T))%>%
   mutate(sample = paste(Study, "_", Transect))%>%
   group_by(sample)%>%
   #mutate(N = sum(n, na.rm = T))%>%
   #filter(N > 0)%>%#removing samples where no species were detected
-  select(sample, Species, n)%>%
+  select(sample, Specific.Epithet, n)%>%
   ungroup()%>%
-  spread(Species, n, fill = c(n = 0))%>%
+  spread(Specific.Epithet, n, fill = c(n = 0))%>%
   column_to_rownames(var = "sample")
 
 veg_butterfly <- abn%>%
   filter(Taxa == "Butterflies")%>%
-  group_by(Study, Transect, Species)%>%
+  group_by(Study, Transect, Specific.Epithet)%>%
   summarise(n = sum(Abundance, na.rm = T))%>%
   mutate(sample = paste(Study, "_", Transect))%>%
   group_by(sample)%>%
   #mutate(N = sum(n, na.rm = T))%>%
   #filter(N > 0)%>%#removing samples where no species were detected
-  select(sample, Species, n)%>%
+  select(sample, Specific.Epithet, n)%>%
   ungroup()%>%
-  spread(Species, n, fill = c(n = 0))%>%
+  spread(Specific.Epithet, n, fill = c(n = 0))%>%
   column_to_rownames(var = "sample")
 
 # sample info
 
 samp_birds <- abn%>%
+  left_join(transects, by = c("Transect"))%>%
   filter(Taxa == "Birds")%>%
   select(Study, Taxa, Transect, Habitat)%>%
   distinct()%>%
   mutate(sample = paste(Study, "_", Transect))
 
 samp_butterfly <- abn%>%
+  left_join(transects, by = c("Transect"))%>%
   filter(Taxa == "Butterflies")%>%
   select(Study, Taxa, Transect, Habitat)%>%
   distinct()%>%
@@ -210,9 +210,9 @@ samp_butterfly <- abn%>%
 
 # ordination
 
-NMDS_birds <- metaMDS(veg_birds, distance = "bray", k = 2, model = "local") # convergence around 278
+NMDS_birds <- metaMDS(veg_birds, distance = "bray", k = 2, model = "local")
 
-NMDS_butterfly <- metaMDS(veg_butterfly, distance = "bray", trymax = 1000, k = 2, model = "local") # convergence aroung 150
+NMDS_butterfly <- metaMDS(veg_butterfly, distance = "bray", trymax = 1000, k = 2, model = "local")
 
 
 # Extracting scores and adding habitat vars
@@ -227,6 +227,17 @@ ord_butterfly <- data.frame(scores(NMDS_butterfly))%>%
 
 ord <- bind_rows(ord_birds, ord_butterfly)
 
+```
+```{r}
+#Testing change in composition of birds
+
+adonis(veg_birds ~ Study, data = samp_birds)
+```
+
+```{r}
+#Testing change in composition of butterflies
+
+adonis(veg_butterfly ~ Study, data = samp_butterfly)
 ```
 
 ```{r fig.height=6}
@@ -243,26 +254,28 @@ ord%>%
 
 ```
 
-```{r}
-#Testing change in composition of birds
-
-adonis(veg_birds ~ Study, data = samp_birds)
-```
-
-```{r}
-#Testing change in composition of butterflies
-
-adonis(veg_butterfly ~ Study, data = samp_butterfly)
-```
+Both bird and butterfly communities compositions are *significantly* different compared to the previous study.
 
 # Change in niche width of community
 
-## Trophic niche
+## Trophic Guilds
 
 ```{r fig.height=8}
-# based on trophic guild
+# compiling trophic guild data
 
-diet <- abn%>%
+host <- read.csv("./Data/Butterflies_host plant_280820.csv") #butterfly host plant data
+
+diet <- read.csv("./Data/Birds_diet.csv") #bird diet data
+
+trophic <- host%>%
+  full_join(diet)%>%
+  select(Specific.Epithet, Guild)%>%
+  distinct()
+
+# Calculating relative proportion of guilds
+
+guilds <- abn%>%
+  left_join(trophic, by = c("Specific.Epithet"))%>%
   group_by(Study, Taxa, Transect,  Guild)%>%
   summarise(n = sum(Abundance, na.rm = T))%>%
   #group_by(Study, Taxa, Transect)%>%
@@ -272,7 +285,21 @@ diet <- abn%>%
   filter(Guild != "",
          !is.na(Guild))
 
-diet%>%
+# t - test
+
+guilds%>%
+  filter(Guild != "Liana Specialist")%>% #removing due to lack of obs
+  complete(nesting(Study, Taxa), Transect, Guild, fill = list(prop.gen = 0))%>%
+  group_by(Taxa, Guild)%>%
+  nest()%>%
+  mutate(test = map(data, ~t.test(prop.gen ~ Study, data = .)),
+         sumry = map(test, broom::tidy))%>%
+  select(sumry)%>%
+  unnest()%>%
+  tstats()
+
+# plot
+guilds%>%
   ggplot(aes(reorder(Guild, prop.gen), prop.gen, col = Study, fill = Study))+
   geom_boxplot(width = 0.25, alpha = 0.5, position = position_dodge(preserve = "single"))+
   labs(y = "Relative Proportion", x = "Trophic Guild")+
@@ -281,11 +308,12 @@ diet%>%
   facet_wrap(~Taxa, scales = "free_x", ncol = 1)
   
 ```
+Carnivorous, Grainivorous birds have reduced in the comunity, compared to insectivorous birds which have increased. Similarly, Shrub specialist and tree specialist butterflies have reduced where grass specialists and herb specialist have increased. Suprsingly, generalist species of both taxa appear to be unchanged.
+
+## Specialisation
 
 ```{r}
 # trophic specialisation based on Juliard et al. 2006
-
-host <- read.csv("./Data/Butterflies_host plant.csv") #host plant data
 
 butterflies_TSI <- host%>%
   mutate(H = length(unique(Hostplant.Family)))%>%
@@ -293,8 +321,6 @@ butterflies_TSI <- host%>%
   mutate(h = length(unique(Hostplant.Family)))%>%
   ungroup()%>%
   mutate(TSI = sqrt((H/h)-1))
-
-diet <- read.csv("./Data/Birds_diet.csv")
 
 birds_TSI <- diet%>%
   mutate(H = length(unique(Prey)))%>%
@@ -304,16 +330,29 @@ birds_TSI <- diet%>%
   mutate(TSI = sqrt((H/h)-1))
 
 CSI.T <- abn%>%
-  select(Study, Transect, Taxa, Species)%>%
+  select(Study, Transect, Taxa, Specific.Epithet)%>%
   group_by(Study, Taxa, Transect)%>%
   distinct()%>%
-  left_join(butterflies_TSI, by = c("Species" = "Common.Name"))%>%
-  left_join(birds_TSI, by = c("Species" = "Common.Name"))%>%
+  left_join(butterflies_TSI, by = c("Specific.Epithet"))%>%
+  left_join(birds_TSI, by = c("Specific.Epithet"))%>%
   mutate(TSI = ifelse(is.na(TSI.x), TSI.y, TSI.x))%>%
-  select(Study, Transect, Taxa, Species, TSI)%>%
+  select(Study, Transect, Taxa, Specific.Epithet, TSI)%>%
   summarise(CSI.T = mean(TSI, na.rm = T))
 ```
 
+
+```{r}
+# t - test
+
+CSI.T%>%
+  group_by(Taxa)%>%
+  nest()%>%
+  mutate(test = map(data, ~t.test(CSI.T ~ Study, data = .)),
+         sumry = map(test, broom::tidy))%>%
+  select(sumry)%>%
+  unnest()%>%
+  tstats()
+```
 
 ```{r}
 fig4b <- CSI.T%>%
@@ -330,12 +369,25 @@ fig4b
 
 ```{r}
 CSI.H <- abn%>%
-  select(Study, Transect, Taxa, Species)%>%
+  select(Study, Transect, Taxa, Specific.Epithet)%>%
   group_by(Study, Taxa, Transect)%>%
   distinct()%>%
-  left_join(species, by = c("Study", "Taxa", "Species"))%>%
-  select(Study, Transect, Taxa, Species, HSI)%>%
+  left_join(species, by = c("Study", "Taxa", "Specific.Epithet"))%>%
+  select(Study, Transect, Taxa, Specific.Epithet, HSI)%>%
   summarise(CSI.H = mean(HSI, na.rm = T))
+```
+
+```{r}
+# t - test
+
+CSI.H%>%
+  group_by(Taxa)%>%
+  nest()%>%
+  mutate(test = map(data, ~t.test(CSI.H ~ Study, data = .)),
+         sumry = map(test, broom::tidy))%>%
+  select(sumry)%>%
+  unnest()%>%
+  tstats()
 ```
 
 ```{r fig.height=6}
@@ -348,6 +400,7 @@ fig4a <- CSI.H%>%
 fig4a
 ```
 
+*Check NAs in HSI calculation*
 
 # Seasonal changes in relative abundance
 
