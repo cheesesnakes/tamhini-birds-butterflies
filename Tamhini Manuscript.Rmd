@@ -310,7 +310,11 @@ guilds%>%
 ```
 Carnivorous, Grainivorous birds have reduced in the comunity, compared to insectivorous birds which have increased. Similarly, Shrub specialist and tree specialist butterflies have reduced where grass specialists and herb specialist have increased. Suprsingly, generalist species of both taxa appear to be unchanged.
 
-## Specialisation
+# Change in niche specialisation
+
+-Can we incorporate abunndance into community specialisation index?
+
+## Trophic niche
 
 ```{r}
 # trophic specialisation based on Juliard et al. 2006
@@ -365,14 +369,28 @@ fig4b <- CSI.T%>%
 fig4b
 ```
 
+Niche width of the community did not change over the two studies.
+
 ## Habitat Niche
 
 ```{r}
+HSI <- abn%>%
+  left_join(transects, by = c("Transect"))%>%
+  group_by(Study, Taxa, Habitat, Specific.Epithet)%>%
+  # calculating abundance of each species in each habitat type
+  summarise(n = sum(Abundance, na.rm = T))%>%
+  group_by(Study, Taxa)%>%
+  mutate(N = sum(n), # total number of indviduals encountered 
+         rel.prop = n/N)%>% # relative proportion of species
+  group_by(Study, Specific.Epithet)%>%
+  summarise(HSI = sd(rel.prop)/mean(rel.prop))%>%
+  replace_na(replace = list(HSI = 0))
+
 CSI.H <- abn%>%
   select(Study, Transect, Taxa, Specific.Epithet)%>%
   group_by(Study, Taxa, Transect)%>%
   distinct()%>%
-  left_join(species, by = c("Study", "Taxa", "Specific.Epithet"))%>%
+  left_join(HSI, by = c("Study", "Specific.Epithet"))%>%
   select(Study, Transect, Taxa, Specific.Epithet, HSI)%>%
   summarise(CSI.H = mean(HSI, na.rm = T))
 ```
@@ -400,7 +418,7 @@ fig4a <- CSI.H%>%
 fig4a
 ```
 
-*Check NAs in HSI calculation*
+Habitat niche of the community did not change over the study periods.
 
 # Seasonal changes in relative abundance
 
