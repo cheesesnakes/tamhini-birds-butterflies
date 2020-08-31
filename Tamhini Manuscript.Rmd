@@ -157,11 +157,12 @@ div_year%>%
 # plot
 
 div_year%>%
-  ggplot(aes(Taxa, H, col = Study, fill = Study))+
+  ggplot(aes(Taxa, H, fill = Study))+
   geom_boxplot(width = 0.25, alpha = 0.5)+
   labs(y = "Effective number of species")+
-  scale_color_brewer(palette = "Set1")
-  
+  scale_fill_brewer(palette = "Greys")
+
+ggsave(last_plot(), filename = "./Figures and Tables/figure2.png", height = 6, width = 8, dpi = 300)  
 ```
 
 The first order diversity of both taxa has increased *significantly* across the two surveys.
@@ -292,9 +293,11 @@ ord%>%
   geom_point(aes(shape = Habitat), size = 3)+
   guides(shape = guide_legend(nrow = 2, byrow = T))+
   scale_color_brewer(palette = "Set1")+
+  scale_fill_brewer(palette = "Set1")+
   facet_wrap(~Taxa)+
   theme(legend.box = "vertical")
 
+ggsave(last_plot(), filename = "./Figures and Tables/figure3.png", height = 6, width = 8, dpi = 300)
 ```
 
 Both bird and butterfly communities compositions are *significantly* different compared to the previous study.
@@ -350,13 +353,14 @@ guilds%>%
 
 # plot
 guilds%>%
-  ggplot(aes(reorder(Guild, prop.gen), prop.gen, col = Study, fill = Study))+
+  ggplot(aes(reorder(Guild, prop.gen), prop.gen, fill = Study))+
   geom_boxplot(width = 0.25, alpha = 0.5, position = position_dodge(preserve = "single"))+
   labs(y = "Relative Proportion", x = "Trophic Guild")+
   scale_x_discrete(guide = guide_axis(n.dodge = 2))+
-  scale_color_brewer(palette = "Set1")+
+  scale_fill_brewer(palette = "Greys")+
   facet_wrap(~Taxa, scales = "free_x", ncol = 1)
-  
+
+ggsave(last_plot(), filename = "./Figures and Tables/figure4.png", height = 9, width = 8, dpi = 300)  
 ```
 Carnivorous, Grainivorous birds have reduced in the comunity, compared to insectivorous birds which have increased. Similarly, Shrub specialist and tree specialist butterflies have reduced where grass specialists and herb specialist have increased. Suprsingly, generalist species of both taxa appear to be unchanged.
 
@@ -417,14 +421,13 @@ CSI.T%>%
 ```
 
 ```{r}
-fig4b <- CSI.T%>%
-  ggplot(aes(Taxa, CSI.T, col = Study, fill = Study))+
+CSI.T%>%
+  ggplot(aes(Taxa, CSI.T, fill = Study))+
   geom_boxplot(width = 0.25, alpha = 0.5)+
   labs(y = "Community specialisation index \n (Trophic)")+
-  scale_color_brewer(palette = "Set1")+
+  scale_fill_brewer(palette = "Greys")+
   scale_y_sqrt()
 
-fig4b
 ```
 
 Niche width of the community did not change over the two studies.
@@ -476,13 +479,11 @@ CSI.H%>%
 ```
 
 ```{r fig.height=6}
-fig4a <- CSI.H%>%
-  ggplot(aes(Taxa, CSI.H, col = Study, fill = Study))+
+CSI.H%>%
+  ggplot(aes(Taxa, CSI.H, fill = Study))+
   geom_boxplot(width = 0.25, alpha = 0.5)+
   labs(y = "Community specialisation index \n (Habitat)")+
-  scale_color_brewer(palette = "Set1")
-
-fig4a
+  scale_fill_brewer(palette = "Greys")
 ```
 
 Habitat niche of the community did not change over the study periods.
