@@ -72,7 +72,7 @@ tstats <- function(x){
   x%>%
     rename('1998-2001' = estimate1,
          '2016-2017' = estimate2)%>%
-    select(`1998-2001`, `2016-2017`, parameter, statistic, p.value)
+    dplyr::select(`1998-2001`, `2016-2017`, parameter, statistic, p.value)
 }
 
 ```
@@ -99,11 +99,11 @@ Uneveness in sampling effort across sites in studies may bias estimates of chang
 ```{r}
 abn%>%
   group_by(Taxa, Study)%>%
-  summarise(richness = length(unique(Specific.Epithet)))%>%
-  spread(Study, richness)
+  summarise(richness = length(unique(Specific.Epithet)),
+            N = sum(Abundance, na.rm = T))
 ```
 
-More species of bothe taxa were encountered in current study compared to the previous study.
+More species of both taxa were encountered in current study compared to the previous study. Difference in sampling effort is apparent accross two studies.
 
 ### Across sites in the two studies
 
@@ -132,7 +132,15 @@ div_year <- abn%>%
   group_by(Study, Taxa, Transect)%>%
   nest()%>%
   mutate(H = map_dbl(data, ~vegetarian::d(.[-1], lev = "alpha", q = 1)))%>%
-  select(-data)
+  dplyr::select(-data)
+
+# Summary
+
+div_year%>%
+  group_by(Taxa, Study)%>%
+  skimr::skim(H)%>%
+  skimr::yank("numeric")%>%
+  dplyr::select(Taxa, Study, mean, sd)
 
 # t test
 
@@ -141,7 +149,7 @@ div_year%>%
   nest()%>%
   mutate(test = map(data, ~t.test(H ~ Study, data = .)),
          sumry = map(test, broom::tidy))%>%
-  select(sumry)%>%
+  dplyr::select(sumry)%>%
   unnest()%>%
   tstats()
   
@@ -161,7 +169,6 @@ The first order diversity of both taxa has increased *significantly* across the 
 # Change in composition of species accross years
 
 ```{r results=F, fig.height=8}
-
 library(vegan)
 
 # input for vegan
@@ -174,7 +181,7 @@ veg_birds <- abn%>%
   group_by(sample)%>%
   #mutate(N = sum(n, na.rm = T))%>%
   #filter(N > 0)%>%#removing samples where no species were detected
-  select(sample, Specific.Epithet, n)%>%
+  dplyr::select(sample, Specific.Epithet, n)%>%
   ungroup()%>%
   spread(Specific.Epithet, n, fill = c(n = 0))%>%
   column_to_rownames(var = "sample")
@@ -187,7 +194,7 @@ veg_butterfly <- abn%>%
   group_by(sample)%>%
   #mutate(N = sum(n, na.rm = T))%>%
   #filter(N > 0)%>%#removing samples where no species were detected
-  select(sample, Specific.Epithet, n)%>%
+  dplyr::select(sample, Specific.Epithet, n)%>%
   ungroup()%>%
   spread(Specific.Epithet, n, fill = c(n = 0))%>%
   column_to_rownames(var = "sample")
@@ -197,17 +204,52 @@ veg_butterfly <- abn%>%
 samp_birds <- abn%>%
   left_join(transects, by = c("Transect"))%>%
   filter(Taxa == "Birds")%>%
-  select(Study, Taxa, Transect, Habitat)%>%
+  dplyr::select(Study, Taxa, Transect, Habitat)%>%
   distinct()%>%
   mutate(sample = paste(Study, "_", Transect))
 
 samp_butterfly <- abn%>%
   left_join(transects, by = c("Transect"))%>%
   filter(Taxa == "Butterflies")%>%
-  select(Study, Taxa, Transect, Habitat)%>%
+  dplyr::select(Study, Taxa, Transect, Habitat)%>%
   distinct()%>%
   mutate(sample = paste(Study, "_", Transect))
+```
 
+```{r}
+# Similarity matrix by studies
+
+sim_birds <- abn%>%
+  filter(Taxa == "Birds")%>%
+  group_by(Study, Specific.Epithet)%>%
+  summarise(n = sum(Abundance, na.rm = T))%>%
+  mutate(sample = Study)%>%
+  ungroup()%>%
+  dplyr::select(sample, Specific.Epithet, n)%>%
+  spread(Specific.Epithet, n, fill = c(n = 0))%>%
+  column_to_rownames(var = "sample")
+
+sim_butterfly <- abn%>%
+  filter(Taxa == "Butterflies")%>%
+  group_by(Study, Specific.Epithet)%>%
+  summarise(n = sum(Abundance, na.rm = T))%>%
+  mutate(sample = Study)%>%
+  ungroup()%>%
+  dplyr::select(sample, Specific.Epithet, n)%>%
+  spread(Specific.Epithet, n, fill = c(n = 0))%>%
+  column_to_rownames(var = "sample")
+
+# bray - curtis
+
+data_frame(
+  Taxa = c("Birds", "Butterflies"),
+  Dissimilarity = c(as.numeric(vegdist(sim_birds, method = "bray")),
+                    as.numeric(vegdist(sim_butterfly, method = "bray")))
+)
+
+```
+
+```{r results=F, fig.height=8}
 # ordination
 
 NMDS_birds <- metaMDS(veg_birds, distance = "bray", k = 2, model = "local")
@@ -228,6 +270,7 @@ ord_butterfly <- data.frame(scores(NMDS_butterfly))%>%
 ord <- bind_rows(ord_birds, ord_butterfly)
 
 ```
+
 ```{r}
 #Testing change in composition of birds
 
@@ -269,7 +312,7 @@ diet <- read.csv("./Data/Birds_diet.csv") #bird diet data
 
 trophic <- host%>%
   full_join(diet)%>%
-  select(Specific.Epithet, Guild)%>%
+  dplyr::select(Specific.Epithet, Guild)%>%
   distinct()
 
 # Calculating relative proportion of guilds
@@ -284,6 +327,13 @@ guilds <- abn%>%
   mutate(prop.gen = n/N)%>%
   filter(Guild != "",
          !is.na(Guild))
+# summary
+
+guilds%>%
+  group_by(Taxa, Guild, Study)%>%
+  skimr::skim(prop.gen)%>%
+  skimr::yank("numeric")%>%
+  dplyr::select(Taxa, Guild, Study, mean, sd)
 
 # t - test
 
@@ -294,7 +344,7 @@ guilds%>%
   nest()%>%
   mutate(test = map(data, ~t.test(prop.gen ~ Study, data = .)),
          sumry = map(test, broom::tidy))%>%
-  select(sumry)%>%
+  dplyr::select(sumry)%>%
   unnest()%>%
   tstats()
 
@@ -334,16 +384,24 @@ birds_TSI <- diet%>%
   mutate(TSI = sqrt((H/h)-1))
 
 CSI.T <- abn%>%
-  select(Study, Transect, Taxa, Specific.Epithet)%>%
+  dplyr::select(Study, Transect, Taxa, Specific.Epithet)%>%
   group_by(Study, Taxa, Transect)%>%
   distinct()%>%
   left_join(butterflies_TSI, by = c("Specific.Epithet"))%>%
   left_join(birds_TSI, by = c("Specific.Epithet"))%>%
   mutate(TSI = ifelse(is.na(TSI.x), TSI.y, TSI.x))%>%
-  select(Study, Transect, Taxa, Specific.Epithet, TSI)%>%
+  dplyr::select(Study, Transect, Taxa, Specific.Epithet, TSI)%>%
   summarise(CSI.T = mean(TSI, na.rm = T))
 ```
 
+```{r}
+# summary
+CSI.T%>%
+  group_by(Taxa, Study)%>%
+  skimr::skim(CSI.T)%>%
+  skimr::yank("numeric")%>%
+  dplyr::select(Taxa, Study, mean, sd)
+```
 
 ```{r}
 # t - test
@@ -353,7 +411,7 @@ CSI.T%>%
   nest()%>%
   mutate(test = map(data, ~t.test(CSI.T ~ Study, data = .)),
          sumry = map(test, broom::tidy))%>%
-  select(sumry)%>%
+  dplyr::select(sumry)%>%
   unnest()%>%
   tstats()
 ```
@@ -387,12 +445,21 @@ HSI <- abn%>%
   replace_na(replace = list(HSI = 0))
 
 CSI.H <- abn%>%
-  select(Study, Transect, Taxa, Specific.Epithet)%>%
+  dplyr::select(Study, Transect, Taxa, Specific.Epithet)%>%
   group_by(Study, Taxa, Transect)%>%
   distinct()%>%
   left_join(HSI, by = c("Study", "Specific.Epithet"))%>%
-  select(Study, Transect, Taxa, Specific.Epithet, HSI)%>%
+  dplyr::select(Study, Transect, Taxa, Specific.Epithet, HSI)%>%
   summarise(CSI.H = mean(HSI, na.rm = T))
+```
+
+```{r}
+# summary
+CSI.H%>%
+  group_by(Taxa, Study)%>%
+  skimr::skim(CSI.H)%>%
+  skimr::yank("numeric")%>%
+  dplyr::select(Taxa, Study, mean, sd)
 ```
 
 ```{r}
@@ -403,7 +470,7 @@ CSI.H%>%
   nest()%>%
   mutate(test = map(data, ~t.test(CSI.H ~ Study, data = .)),
          sumry = map(test, broom::tidy))%>%
-  select(sumry)%>%
+  dplyr::select(sumry)%>%
   unnest()%>%
   tstats()
 ```
