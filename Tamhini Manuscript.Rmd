@@ -439,3 +439,25 @@ season%>%
   facet_wrap(~Study, ncol = 1)
 ```
 
+# Site Map
+
+```{r fig.height=8}
+library(raster)
+library(sf)
+
+sites <- read.csv("./Data/sites.csv")%>%
+  drop_na()
+
+sites_sf <- st_as_sf(sites, coords = c('Lat', 'Lon'))
+
+area <- extent(sites_sf)
+
+plot(area)
+
+sites%>%
+  ggplot(aes(Lat, Lon, group = Transect))+
+  geom_point()+
+  geom_line()+
+  geom_label(aes(label = Transect))
+```
+
