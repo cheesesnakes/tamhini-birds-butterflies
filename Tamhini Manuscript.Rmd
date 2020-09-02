@@ -513,19 +513,194 @@ season%>%
 library(raster)
 library(sf)
 
-sites <- read.csv("./Data/sites.csv")%>%
-  drop_na()
+# Raw point data
 
-sites_sf <- st_as_sf(sites, coords = c('Lat', 'Lon'))
+points <- read.csv("./Data/sites.csv")%>%
+  drop_na()%>%
+  dplyr::select(-Location)
 
-area <- extent(sites_sf)
+# Converting to SF points
 
-plot(area)
+points_sf <- st_as_sf(points, coords = c('Lon', 'Lat'))
 
-sites%>%
-  ggplot(aes(Lat, Lon, group = Transect))+
-  geom_point()+
-  geom_line()+
-  geom_label(aes(label = Transect))
+st_crs(points_sf) <- 4326
+
+# Making transect lines
+
+lines <- points_sf%>%
+  mutate(Transect = as.factor(Transect))%>%
+  group_by(Transect)%>%
+  summarise()%>%
+  st_cast("LINESTRING")
+```
+
+```{r}
+# getting study extent
+
+study_ext <- st_bbox(points_sf)
+
+ext <- st_as_sfc(study_ext)
+
+# getting osm map
+
+library(osmdata)
+
+# Tamhini WLS
+
+tamhini_raw <- opq(bbox = study_ext, timeout = 100)%>%
+  add_osm_feature(key = 'boundary', value = 'protected_area')%>%
+  osmdata_sf()%>%
+  unique_osmdata()
+  
+tamhini <- tamhini_raw$osm_multipolygons
+
+st_crs(tamhini) <- 4326
+
+# Roads
+
+tamhini_area <- st_bbox(tamhini)
+
+roads_raw <- opq(bbox = tamhini_area, timeout = 100)%>%
+  add_osm_feature(key = 'highway')%>%
+  osmdata_sf()%>%
+  unique_osmdata()
+  
+roads <- roads_raw$osm_lines
+
+st_crs(roads) <- 4326
+
+# Landuse
+
+landuse_raw <- opq(bbox = tamhini_area, timeout = 100)%>%
+  add_osm_feature(key = 'natural')%>%
+  osmdata_sf()%>%
+  unique_osmdata()
+  
+forest <- landuse_raw$osm_polygons%>%
+  filter(natural == "wood")
+
+water <- landuse_raw$osm_multipolygons
+
+water_small <- landuse_raw$osm_polygons%>%
+  filter(natural == "water")
+
+st_crs(forest) <- 4326
+
+# waterways
+
+waterway_raw <- opq(bbox = tamhini_area, timeout = 100)%>%
+  add_osm_feature(key = 'waterway')%>%
+  osmdata_sf()%>%
+  unique_osmdata()
+  
+waterways <- waterway_raw$osm_lines
+
+st_crs(waterways) <- 4326
+```
+
+
+```{r results=F,include=F}
+# plotting site map
+library(tmap)
+library(cowplot) # for plot_grid() function - good to arrange multiple plots into a grid
+library(grid)
+
+# Study site
+
+tm_shape(forest)+ #forested lands
+  tm_polygons(col = "#81AF81", alpha = 0.5, border.col = NULL)+
+tm_shape(water)+
+  tm_polygons(col = "#77A1CB", border.col = NULL)+
+tm_shape(waterways)+
+  tm_lines(col = "#77A1CB", lwd = 2)+
+tm_shape(roads)+
+  tm_lines(alpha = 0.5, lwd = 1.5)+
+  tm_text("ref", size = 0.3, remove.overlap = T)+
+tm_shape(tamhini)+
+  tm_borders(lwd = 2, col = "#165916", lty = "dashed")+
+  tm_text("name", size = 0.5)+
+tm_shape(lines, is.master = T, bbox = study_ext+c(-0.005, -0.005,0.005,0.005))+
+  tm_lines(col = "red", lwd = 2)+
+  tm_text("Transect", size = 0.5, auto.placement = T, remove.overlap = T)+
+  tm_graticules(n.x = 5, lines = F, labels.inside.frame = T)+
+  tm_scale_bar(position = c("left", "top"), text.size = 0.5, size = 0.5) + 
+  tm_compass(position = c('right', 'top'), size = 2)+
+  tm_layout(scale = 1.5, legend.position = c("left", "bottom"), bg.color = "#ffdb9c", asp = 1.5)
+
+fig1a <- grid.grab()
+```
+
+
+```{r results=F,include=F}
+# Tamhini WLS
+
+tm_shape(forest)+ #forested lands
+  tm_polygons(col = "#81AF81", alpha = 0.5, border.col = NULL)+
+tm_shape(water)+
+  tm_polygons(col = "#77A1CB", border.col = NULL)+
+  tm_text(text = "name", remove.overlap = F, size = 0.5)+  
+tm_shape(water_small)+
+  tm_polygons(col = "#77A1CB", border.col = NULL)+
+  tm_text("name", remove.overlap = F)+  
+tm_shape(waterways)+
+  tm_lines(col = "#77A1CB", lwd = 2)+
+tm_shape(roads)+
+  tm_lines(alpha = 0.5, lwd = 1.5)+
+tm_shape(tamhini, is.master = T, bbox = tamhini_area+c(-0.01, -0.01,0.01,0.01))+
+  tm_borders(col = "#165916", lty = "dashed")+
+  tm_text("name", size = 0.5)+
+tm_shape(ext)+
+  tm_borders(col = "red")+
+  tm_scale_bar(position = c("left", "top"), text.size = 0.5) + 
+  tm_layout(scale = 1, legend.position = c("left", "bottom"), bg.color = "#ffdb9c", asp = 1)
+
+fig1b <- grid.grab()
+```
+
+```{r results=F,include=F}
+# legend
+
+tm_shape(forest)+
+  tm_polygons(col = "#81AF81", alpha = 0.5, border.col = NULL)+
+tm_shape(ext)+
+  tm_borders(col = "red")+
+  tm_add_legend(type = "fill",col = c("#81AF81", "#77A1CB", "#ffdb9c"), 
+                labels = c("Forest", "Water", "Barren Land"), title = "Legend")+
+  tm_add_legend(type = "line",col = c("black", "#165916", "#77A1CB", "red"), labels = c("Roads", "WLS boundary", "Waterway", "Transect"))+
+  tm_layout(legend.only = T, asp = 1, legend.position = c(0.3,0.2), scale = 2)
+
+legend <- grid::grid.grab()
+
+```
+
+
+```{r results=F,include=F}
+# making inset map
+
+tamext <- st_as_sfc(tamhini_area + c(-.5,-.5, .5, .5)) 
+
+india <- read_sf("./Data/India-States.shp")
+
+tm_shape(india)+
+  tm_polygons(col = "#ffdb9c")+
+tm_shape(tamext)+
+  tm_borders(lwd = 1, col =  "red")+
+  tm_layout(scale = 1.5, bg.color = "#77A1CB", asp = 1)
+
+fig1c <- grid.grab()
+
+```
+
+
+```{r fig.height=8}
+# making final map
+
+library(gridExtra)
+
+fig1 <- grid.arrange(fig1a, fig1b, fig1c, legend, layout_matrix = rbind(c(1, 1, 1),
+                                                          c(1, 1, 1),
+                                                          c(2, 3, 4)))
+
+ggsave(fig1, filename = "./Figures and Tables/figure1.png", height = 8, width = 8)
 ```
 
