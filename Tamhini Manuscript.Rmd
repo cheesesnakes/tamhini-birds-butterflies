@@ -596,6 +596,16 @@ waterway_raw <- opq(bbox = tamhini_area, timeout = 100)%>%
 waterways <- waterway_raw$osm_lines
 
 st_crs(waterways) <- 4326
+
+# elevation 
+
+library(elevatr)
+
+tam_elev <- elevatr::get_elev_raster(locations = tamhini, z = 8)
+
+tam_contours <- raster::rasterToContour(tam_elev, levels = seq(0, 1000, 100))
+
+plot(tam_contours)
 ```
 
 
@@ -609,6 +619,9 @@ library(grid)
 
 tm_shape(forest)+ #forested lands
   tm_polygons(col = "#81AF81", alpha = 0.5, border.col = NULL)+
+tm_shape(tam_contours)+
+  tm_lines(col = "white", lty = "dotted")+
+  tm_text(text = "level", auto.placement = T)+
 tm_shape(water)+
   tm_polygons(col = "#77A1CB", border.col = NULL)+
 tm_shape(waterways)+
@@ -636,6 +649,9 @@ fig1a <- grid.grab()
 
 tm_shape(forest)+ #forested lands
   tm_polygons(col = "#81AF81", alpha = 0.5, border.col = NULL)+
+tm_shape(tam_contours)+
+  tm_lines(col = "white", lty = "dotted")+
+  tm_text(text = "level", auto.placement = T)+
 tm_shape(water)+
   tm_polygons(col = "#77A1CB", border.col = NULL)+
   tm_text(text = "name", remove.overlap = F, size = 0.5)+  
@@ -666,7 +682,10 @@ tm_shape(ext)+
   tm_borders(col = "red")+
   tm_add_legend(type = "fill",col = c("#81AF81", "#77A1CB", "#ffdb9c"), 
                 labels = c("Forest", "Water", "Barren Land"), title = "Legend")+
-  tm_add_legend(type = "line",col = c("black", "#165916", "#77A1CB", "red"), labels = c("Roads", "WLS boundary", "Waterway", "Transect"))+
+  tm_add_legend(type = "line", col = c("black", "#165916", "#77A1CB", "red"), 
+                labels = c("Roads", "WLS boundary", "Waterway", "Transect"), 
+                lwd = c(3,3,3,3),
+                lty = c(1, 2, 1, 1))+
   tm_layout(legend.only = T, asp = 1, legend.position = c(0.3,0.2), scale = 2)
 
 legend <- grid::grid.grab()
