@@ -2,6 +2,7 @@
 title: "Shifts in bird and butterfly communities of Tamhini Ghat"
 output:
   html_document:
+    codefolding: yes
     css: style.css
     df_print: kable
     theme: spacelab
@@ -22,7 +23,7 @@ This file was last update on `r Sys.Date()`
 
 options(max.print="75")
 
-knitr::opts_chunk$set(echo = FALSE, error = T, warning = F, message = F, tidy = T, 
+knitr::opts_chunk$set(error = T, warning = F, message = F, tidy = T, 
                       cache = T, dpi = 300, fig.align = "center", fig.height = 4.5, fig.width = 8)
 
 #Required libraries
@@ -88,7 +89,65 @@ abn%>%
   spread(Transect, n)
 ```
 
+No. of individuals sampled
+
+```{r}
+abn%>%
+  group_by(Study, Taxa, Transect)%>%
+  summarise(n = sum(Abundance))%>%
+  spread(Transect, n)
+```
+
 Uneveness in sampling effort across sites in studies may bias estimates of change.
+
+## Rarefying across sites
+
+```{r}
+library(vegan)
+
+# input for vegan
+
+veg_birds <- abn%>%
+  filter(Taxa == "Birds")%>%
+  group_by(Study, Transect, Specific.Epithet)%>%
+  summarise(n = sum(Abundance, na.rm = T))%>%
+  mutate(sample = paste(Study, "_", Transect))%>%
+  group_by(sample)%>%
+  #mutate(N = sum(n, na.rm = T))%>%
+  #filter(N > 0)%>%#removing samples where no species were detected
+  dplyr::select(sample, Specific.Epithet, n)%>%
+  ungroup()%>%
+  spread(Specific.Epithet, n, fill = c(n = 0))%>%
+  column_to_rownames(var = "sample")
+
+veg_butterfly <- abn%>%
+  filter(Taxa == "Butterflies")%>%
+  group_by(Study, Transect, Specific.Epithet)%>%
+  summarise(n = sum(Abundance, na.rm = T))%>%
+  mutate(sample = paste(Study, "_", Transect))%>%
+  group_by(sample)%>%
+  #mutate(N = sum(n, na.rm = T))%>%
+  #filter(N > 0)%>%#removing samples where no species were detected
+  dplyr::select(sample, Specific.Epithet, n)%>%
+  ungroup()%>%
+  spread(Specific.Epithet, n, fill = c(n = 0))%>%
+  column_to_rownames(var = "sample")
+```
+
+
+```{r}
+## Species accumulation curves
+
+specaccum(veg_butterfly)
+
+rareslope(veg_butterfly, sample = 200)
+
+rarefy(veg_butterfly, sample = 200)
+
+rarebutts <- rarecurve(veg_butterfly)
+
+data.frame(rarebutts)
+```
 
 # Change in diversity across years
 
@@ -170,36 +229,6 @@ The first order diversity of both taxa has increased *significantly* across the 
 # Change in composition of species accross years
 
 ```{r results=F, fig.height=8}
-library(vegan)
-
-# input for vegan
-
-veg_birds <- abn%>%
-  filter(Taxa == "Birds")%>%
-  group_by(Study, Transect, Specific.Epithet)%>%
-  summarise(n = sum(Abundance, na.rm = T))%>%
-  mutate(sample = paste(Study, "_", Transect))%>%
-  group_by(sample)%>%
-  #mutate(N = sum(n, na.rm = T))%>%
-  #filter(N > 0)%>%#removing samples where no species were detected
-  dplyr::select(sample, Specific.Epithet, n)%>%
-  ungroup()%>%
-  spread(Specific.Epithet, n, fill = c(n = 0))%>%
-  column_to_rownames(var = "sample")
-
-veg_butterfly <- abn%>%
-  filter(Taxa == "Butterflies")%>%
-  group_by(Study, Transect, Specific.Epithet)%>%
-  summarise(n = sum(Abundance, na.rm = T))%>%
-  mutate(sample = paste(Study, "_", Transect))%>%
-  group_by(sample)%>%
-  #mutate(N = sum(n, na.rm = T))%>%
-  #filter(N > 0)%>%#removing samples where no species were detected
-  dplyr::select(sample, Specific.Epithet, n)%>%
-  ungroup()%>%
-  spread(Specific.Epithet, n, fill = c(n = 0))%>%
-  column_to_rownames(var = "sample")
-
 # sample info
 
 samp_birds <- abn%>%
@@ -604,8 +633,6 @@ library(elevatr)
 tam_elev <- elevatr::get_elev_raster(locations = tamhini, z = 8)
 
 tam_contours <- raster::rasterToContour(tam_elev, levels = seq(0, 1000, 100))
-
-plot(tam_contours)
 ```
 
 
