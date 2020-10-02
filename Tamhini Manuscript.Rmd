@@ -145,8 +145,6 @@ rareslope(veg_butterfly, sample = 200)
 rarefy(veg_butterfly, sample = 200)
 
 rarebutts <- rarecurve(veg_butterfly)
-
-data.frame(rarebutts)
 ```
 
 # Change in diversity across years
@@ -347,23 +345,24 @@ trophic <- host%>%
   dplyr::select(Specific.Epithet, Guild)%>%
   distinct()
 
-# Calculating relative proportion of guilds
+# Calculating diversity of guilds
 
 guilds <- abn%>%
   left_join(trophic, by = c("Specific.Epithet"))%>%
-  group_by(Study, Taxa, Transect,  Guild)%>%
+  filter(!Guild == "")%>%
+  group_by(Study, Taxa, Transect, Guild,  Specific.Epithet)%>%
   summarise(n = sum(Abundance, na.rm = T))%>%
-  #group_by(Study, Taxa, Transect)%>%
-  mutate(N = sum(n))%>%
-  #filter(Guild == "Generalist" | Guild == "Omnivore")%>%
-  mutate(prop.gen = n/N)%>%
-  filter(Guild != "",
-         !is.na(Guild))
+  spread(Specific.Epithet, n, fill = c(0))%>%
+  group_by(Study, Taxa, Transect, Guild)%>%
+  nest()%>%
+  mutate(H = map_dbl(data, ~vegetarian::d(.[-1], lev = "alpha", q = 1)))%>%
+  dplyr::select(-data)
+
 # summary
 
 guilds%>%
   group_by(Taxa, Guild, Study)%>%
-  skimr::skim(prop.gen)%>%
+  skimr::skim(H)%>%
   skimr::yank("numeric")%>%
   dplyr::select(Taxa, Guild, Study, mean, sd)
 
@@ -371,10 +370,10 @@ guilds%>%
 
 guilds%>%
   filter(Guild != "Liana Specialist")%>% #removing due to lack of obs
-  complete(nesting(Study, Taxa), Transect, Guild, fill = list(prop.gen = 0))%>%
+  complete(nesting(Study, Taxa), Transect, Guild, fill = list(H = 0))%>%
   group_by(Taxa, Guild)%>%
   nest()%>%
-  mutate(test = map(data, ~t.test(prop.gen ~ Study, data = .)),
+  mutate(test = map(data, ~t.test(H ~ Study, data = .)),
          sumry = map(test, broom::tidy))%>%
   dplyr::select(sumry)%>%
   unnest()%>%
@@ -382,9 +381,9 @@ guilds%>%
 
 # plot
 guilds%>%
-  ggplot(aes(reorder(Guild, prop.gen), prop.gen, fill = Study))+
+  ggplot(aes(reorder(Guild, H), H, fill = Study))+
   geom_boxplot(width = 0.25, alpha = 0.5, position = position_dodge(preserve = "single"))+
-  labs(y = "Relative Proportion", x = "Trophic Guild")+
+  labs(y = "Effective number of species", x = "Trophic Guild")+
   scale_x_discrete(guide = guide_axis(n.dodge = 2))+
   scale_fill_brewer(palette = "Greys")+
   facet_wrap(~Taxa, scales = "free_x", ncol = 1)
