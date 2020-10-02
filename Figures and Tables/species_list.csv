@@ -1,0 +1,330 @@
+"Common.Name","Specific.Epithet","Guild","Study","Taxa","Evergreen Forest","Human Habitation/Farmland","Riparian","Scrubland/Grassland"
+"Indian Common Crow","Euploea core","Generalist","1998 - 2000","Butterflies",0.0155339805825243,0.0116504854368932,NA,0.0427184466019417
+"Indian Common Crow","Euploea core","Generalist","2016 - 2017","Butterflies",0.0218470705064548,0.0124131082423039,0.00645481628599801,0.0198609731876862
+"Angled Pierrot","Caleta decidia","Tree Specialist","1998 - 2000","Butterflies",0.00194174757281553,0.0058252427184466,0.00194174757281553,0.0155339805825243
+"Angled Pierrot","Caleta decidia","Tree Specialist","2016 - 2017","Butterflies",0.0054617676266137,0.0119165839126117,0.00347567030784508,0.0148957298907646
+"Lime Blue","Chilades lajus","Tree Specialist","1998 - 2000","Butterflies",0.00388349514563107,NA,NA,0.00388349514563107
+"Lime Blue","Chilades lajus","Tree Specialist","2016 - 2017","Butterflies",0.000496524329692155,0.00099304865938431,NA,0.00198609731876862
+"Common Small Flat","Sarandgesa dasahara","Herb Specialist","2016 - 2017","Butterflies",NA,0.00496524329692155,0.00744786494538232,0.00397219463753724
+"Common Mormon","Papilio polytes","Tree Specialist","1998 - 2000","Butterflies",0.00194174757281553,NA,NA,0.00970873786407767
+"Common Mormon","Papilio polytes","Tree Specialist","2016 - 2017","Butterflies",0.00397219463753724,0.00446871896722939,0.00297914597815293,0.00794438927507448
+"Chocolate Pansy","Junonia iphita","Herb Specialist","1998 - 2000","Butterflies",0.0135922330097087,0.0233009708737864,NA,0.0330097087378641
+"Chocolate Pansy","Junonia iphita","Herb Specialist","2016 - 2017","Butterflies",0.0198609731876862,0.0054617676266137,0.0228401191658391,0.0268123138033764
+"Common Emigrant","Catopsilia pomona","Generalist","1998 - 2000","Butterflies",0.0174757281553398,0.00194174757281553,NA,0.0155339805825243
+"Common Emigrant","Catopsilia pomona","Generalist","2016 - 2017","Butterflies",0.00347567030784508,0.00248262164846077,0.00297914597815293,0.00148957298907646
+"Pioneer","Belenois aurota","Shrub Specialist","1998 - 2000","Butterflies",NA,NA,NA,0.00194174757281553
+"Pioneer","Belenois aurota","Shrub Specialist","2016 - 2017","Butterflies",0.00099304865938431,0.00446871896722939,NA,0.00198609731876862
+"Gram Blue","Euchrysops cnejus","Tree Specialist","1998 - 2000","Butterflies",0.118446601941748,0.00776699029126214,NA,0.0116504854368932
+"Gram Blue","Euchrysops cnejus","Tree Specialist","2016 - 2017","Butterflies",0.0099304865938431,0.00297914597815293,0.00148957298907646,0.00198609731876862
+"Gram Blue","Euchrysops cnejus","Generalist","1998 - 2000","Butterflies",0.118446601941748,0.00776699029126214,NA,0.0116504854368932
+"Gram Blue","Euchrysops cnejus","Generalist","2016 - 2017","Butterflies",0.0099304865938431,0.00297914597815293,0.00148957298907646,0.00198609731876862
+"Common Silverline","Spindasis vulcanus","Generalist","2016 - 2017","Butterflies",NA,0.00148957298907646,0.000496524329692155,0.00148957298907646
+"Mottled Emigrant","Catopsilia pyranthe","Generalist","1998 - 2000","Butterflies",NA,NA,NA,0.00194174757281553
+"Mottled Emigrant","Catopsilia pyranthe","Generalist","2016 - 2017","Butterflies",NA,NA,NA,0.00099304865938431
+"Yellow Pansy","Junonia hierta","Herb Specialist","1998 - 2000","Butterflies",NA,NA,NA,0.00194174757281553
+"Yellow Pansy","Junonia hierta","Herb Specialist","2016 - 2017","Butterflies",NA,NA,0.00148957298907646,0.00297914597815293
+"Lemon Pansy","Junonia lemonias","Herb Specialist","1998 - 2000","Butterflies",0.0116504854368932,0.00194174757281553,NA,0.00388349514563107
+"Lemon Pansy","Junonia lemonias","Herb Specialist","2016 - 2017","Butterflies",0.0114200595829196,0.00794438927507448,0.0114200595829196,0.0119165839126117
+"Psyche","Leptosia nina","Shrub Specialist","2016 - 2017","Butterflies",0.00695134061569017,0.00099304865938431,0.00248262164846077,0.00397219463753724
+"Spotted Flat","Celaenorrhinus ambareesa","Herb Specialist","2016 - 2017","Butterflies",0.00645481628599801,0.00645481628599801,0.00595829195630586,NA
+"Rustic","Cupha erymanthis","Tree Specialist","2016 - 2017","Butterflies",0.00893743793445879,NA,0.00297914597815293,0.00744786494538232
+"Glassy Tiger","Parantica aglea","Shrub Specialist","1998 - 2000","Butterflies",0.0213592233009709,0.00970873786407767,0.00388349514563107,0.0310679611650485
+"Glassy Tiger","Parantica aglea","Shrub Specialist","2016 - 2017","Butterflies",0.00695134061569017,0.00148957298907646,0.00099304865938431,0.00496524329692155
+"Common Line Blue","Prosotas nora","Generalist","2016 - 2017","Butterflies",0.00446871896722939,0.00297914597815293,0.00099304865938431,0.00794438927507448
+"Blue Mormon","Papilio polymnestor","Tree Specialist","1998 - 2000","Butterflies",0.00970873786407767,0.00194174757281553,NA,0.0174757281553398
+"Blue Mormon","Papilio polymnestor","Tree Specialist","2016 - 2017","Butterflies",0.0153922542204568,0.00099304865938431,0.00943396226415094,0.00397219463753724
+"Plain Tiger","Danaus chrysippus","Shrub Specialist","1998 - 2000","Butterflies",0.00194174757281553,0.0058252427184466,0.00194174757281553,0.0058252427184466
+"Plain Tiger","Danaus chrysippus","Shrub Specialist","2016 - 2017","Butterflies",0.00148957298907646,NA,0.00099304865938431,0.00148957298907646
+"Water Snow Flat","Tagiades litigiosa","Herb Specialist","1998 - 2000","Butterflies",NA,0.00388349514563107,NA,NA
+"Water Snow Flat","Tagiades litigiosa","Herb Specialist","2016 - 2017","Butterflies",0.00148957298907646,NA,NA,NA
+"Suffused Double Banded Judy","Abisara bifasciata","Shrub Specialist","2016 - 2017","Butterflies",0.00744786494538232,0.0153922542204568,0.0139026812313803,0.0526315789473684
+"Common Sailor","Neptis hylas","Tree Specialist","1998 - 2000","Butterflies",0.00194174757281553,0.0174757281553398,0.00776699029126214,0.0174757281553398
+"Common Sailor","Neptis hylas","Tree Specialist","2016 - 2017","Butterflies",0.00943396226415094,0.0228401191658391,0.012909632571996,0.0183714001986097
+"Blue Oak Leaf","Kallima horsfieldi","Herb Specialist","1998 - 2000","Butterflies",NA,0.00194174757281553,NA,0.00970873786407767
+"Blue Oak Leaf","Kallima horsfieldi","Herb Specialist","2016 - 2017","Butterflies",0.00347567030784508,0.000496524329692155,0.00148957298907646,0.00148957298907646
+"Common Five Ring","Ypthima ceylonica","Grass Specialist","1998 - 2000","Butterflies",0.00970873786407767,0.00776699029126214,NA,0.0194174757281553
+"Common Five Ring","Ypthima ceylonica","Grass Specialist","2016 - 2017","Butterflies",0.0143992055610725,0.0153922542204568,0.0148957298907646,0.0377358490566038
+"Pea Blue","Lampides boeticus","Tree Specialist","2016 - 2017","Butterflies",NA,0.00099304865938431,NA,NA
+"Common Grass Yellow","Eurema hecabe","Tree Specialist","1998 - 2000","Butterflies",0.0271844660194175,0.0368932038834951,0.00194174757281553,0.0310679611650485
+"Common Grass Yellow","Eurema hecabe","Tree Specialist","2016 - 2017","Butterflies",0.00943396226415094,0.0163853028798411,0.00695134061569017,0.0441906653426018
+"Common Evening Brown","Melanitis leda","Grass Specialist","1998 - 2000","Butterflies",0.00776699029126214,NA,0.00194174757281553,0.00194174757281553
+"Common Evening Brown","Melanitis leda","Grass Specialist","2016 - 2017","Butterflies",0.00099304865938431,0.00148957298907646,0.000496524329692155,0.00148957298907646
+"Common Four Ring","Ypthima huebneri","Grass Specialist","1998 - 2000","Butterflies",NA,0.00388349514563107,NA,0.0854368932038835
+"Common Four Ring","Ypthima huebneri","Grass Specialist","2016 - 2017","Butterflies",0.00397219463753724,0.0109235352532274,0.00844091360476663,0.0491559086395233
+"Striped Tiger","Danaus genutia","Shrub Specialist","1998 - 2000","Butterflies",NA,0.00388349514563107,NA,0.00194174757281553
+"Striped Tiger","Danaus genutia","Shrub Specialist","2016 - 2017","Butterflies",0.00148957298907646,NA,NA,0.00099304865938431
+"One Spot Grass Yellow","Eurema andersoni","Tree Specialist","2016 - 2017","Butterflies",0.00248262164846077,0.00198609731876862,0.00297914597815293,0.0054617676266137
+"Common Bushbrown","Mycalesis perseus","Grass Specialist","2016 - 2017","Butterflies",NA,0.00148957298907646,0.000496524329692155,NA
+"Painted Lady","Vanessa cardui","Generalist","2016 - 2017","Butterflies",NA,NA,0.000496524329692155,0.00099304865938431
+"Chestnut Bob","Iambrix salsala","Grass Specialist","2016 - 2017","Butterflies",0.00099304865938431,0.0109235352532274,0.00099304865938431,0.0054617676266137
+"Dark Cerulean","Jamides bochus","Tree Specialist","1998 - 2000","Butterflies",NA,0.00194174757281553,NA,NA
+"Dark Cerulean","Jamides bochus","Tree Specialist","2016 - 2017","Butterflies",0.000496524329692155,NA,0.00148957298907646,0.00099304865938431
+"Three Spot Grass Yellow","Eurema blanda","Tree Specialist","2016 - 2017","Butterflies",NA,NA,0.00148957298907646,0.00347567030784508
+"Tailed Jay","Graphium agamemnon","Tree Specialist","2016 - 2017","Butterflies",0.00148957298907646,NA,NA,NA
+"Common Treebrown","Lethe rohria","Grass Specialist","2016 - 2017","Butterflies",0.00099304865938431,NA,NA,NA
+"Monkey Puzzle","Rathinda amor","Tree Specialist","2016 - 2017","Butterflies",0.00099304865938431,NA,NA,NA
+"Small Branded Swift","Pelopidas mathias","Generalist","2016 - 2017","Butterflies",NA,0.00297914597815293,0.00099304865938431,0.00397219463753724
+"Blue Tiger","Tirumala limniace","Shrub Specialist","1998 - 2000","Butterflies",0.0058252427184466,0.00194174757281553,NA,0.00776699029126214
+"Blue Tiger","Tirumala limniace","Shrub Specialist","2016 - 2017","Butterflies",0.00198609731876862,0.000496524329692155,NA,0.00099304865938431
+"Grass Demon","Udaspes folus","Herb Specialist","2016 - 2017","Butterflies",0.00099304865938431,NA,NA,0.000496524329692155
+"Common Jessabelle","Delias eucharis","Tree Specialist","1998 - 2000","Butterflies",0.0058252427184466,0.00388349514563107,NA,0.00388349514563107
+"Common Jessabelle","Delias eucharis","Tree Specialist","2016 - 2017","Butterflies",0.00099304865938431,0.00099304865938431,NA,0.000496524329692155
+"Common Wanderer","Pareronia ceylanica","Shrub Specialist","1998 - 2000","Butterflies",NA,0.00388349514563107,0.00194174757281553,0.00970873786407767
+"Common Wanderer","Pareronia ceylanica","Shrub Specialist","2016 - 2017","Butterflies",0.000496524329692155,0.00248262164846077,0.000496524329692155,NA
+"Common Cerulean","Jamides celeno","Generalist","1998 - 2000","Butterflies",NA,0.00194174757281553,NA,0.0155339805825243
+"Common Cerulean","Jamides celeno","Generalist","2016 - 2017","Butterflies",0.00347567030784508,0.0218470705064548,0.00446871896722939,0.0228401191658391
+"Tawny Coaster","Acraea terpsicore","Generalist","2016 - 2017","Butterflies",NA,0.000496524329692155,0.00099304865938431,NA
+"Tiny Grass Blue","Zizula hylax","Shrub Specialist","2016 - 2017","Butterflies",0.00297914597815293,0.00347567030784508,0.000496524329692155,0.00446871896722939
+"Common Leopard","Phalanta phalantha","Tree Specialist","1998 - 2000","Butterflies",0.00970873786407767,0.0058252427184466,NA,0.00776699029126214
+"Common Leopard","Phalanta phalantha","Tree Specialist","2016 - 2017","Butterflies",0.00248262164846077,0.000496524329692155,0.00099304865938431,0.0099304865938431
+"Blue Bottle","Graphium teredon","Tree Specialist","2016 - 2017","Butterflies",0.000496524329692155,NA,NA,NA
+"Peacock Pansy","Junonia almana","Shrub Specialist","1998 - 2000","Butterflies",0.00388349514563107,0.00194174757281553,NA,0.00388349514563107
+"Peacock Pansy","Junonia almana","Shrub Specialist","2016 - 2017","Butterflies",NA,0.00148957298907646,NA,NA
+"Blue Pansy","Junonia orithya","Herb Specialist","1998 - 2000","Butterflies",0.00776699029126214,NA,NA,NA
+"Blue Pansy","Junonia orithya","Herb Specialist","2016 - 2017","Butterflies",NA,0.00099304865938431,0.000496524329692155,NA
+"Common Lascar","Pantoporia hordonia","Tree Specialist","2016 - 2017","Butterflies",NA,NA,NA,0.000496524329692155
+"Spotless Grass Yellow","Eurema laeta","Herb Specialist","2016 - 2017","Butterflies",NA,NA,NA,0.000496524329692155
+"Small Grass Jewel","Freyeria putli","Generalist","2016 - 2017","Butterflies",NA,0.00397219463753724,0.000496524329692155,0.0099304865938431
+"Forget-me-not","Catochrysops strabo","Generalist","2016 - 2017","Butterflies",NA,0.00297914597815293,0.00099304865938431,0.00794438927507448
+"Danaid Eggfly","Hypolimnas misippus","Generalist","1998 - 2000","Butterflies",0.00194174757281553,NA,NA,0.00388349514563107
+"Danaid Eggfly","Hypolimnas misippus","Generalist","2016 - 2017","Butterflies",0.000496524329692155,NA,NA,0.000496524329692155
+"Lesser Grass Blue","Zizina otis","Herb Specialist","2016 - 2017","Butterflies",NA,NA,NA,0.00099304865938431
+"Dark Evening Brown","Melanitis phedima","Grass Specialist","2016 - 2017","Butterflies",0.00148957298907646,NA,NA,NA
+"Grey Pansy","Junonia atlites","Shrub Specialist","2016 - 2017","Butterflies",NA,NA,0.000496524329692155,0.00099304865938431
+"Pale Grass Blue","Pseudozizeeria maha","Herb Specialist","2016 - 2017","Butterflies",NA,NA,NA,0.00099304865938431
+"Dark Grass Blue","Zizeeria karsandra","Herb Specialist","2016 - 2017","Butterflies",NA,0.000496524329692155,NA,0.000496524329692155
+"Bamboo Treebrown","Lethe europa","Grass Specialist","1998 - 2000","Butterflies",NA,NA,NA,0.00194174757281553
+"Bamboo Treebrown","Lethe europa","Grass Specialist","2016 - 2017","Butterflies",NA,0.000496524329692155,NA,NA
+"Metallic Cerulean","Jamides alectoalocina","Herb Specialist","2016 - 2017","Butterflies",NA,NA,NA,0.000496524329692155
+"White Orange Tip","Ixias marianne","Shrub Specialist","2016 - 2017","Butterflies",NA,NA,0.00099304865938431,NA
+"Commander","Moduza procris","Generalist","2016 - 2017","Butterflies",0.000496524329692155,NA,NA,NA
+"Common Baron","Euthalia aconthea","Generalist","1998 - 2000","Butterflies",NA,0.00194174757281553,NA,NA
+"Common Baron","Euthalia aconthea","Generalist","2016 - 2017","Butterflies",NA,NA,0.000496524329692155,NA
+"Common Baron","Euthalia aconthea","Grass Specialist","1998 - 2000","Butterflies",NA,0.00194174757281553,NA,NA
+"Common Baron","Euthalia aconthea","Grass Specialist","2016 - 2017","Butterflies",NA,NA,0.000496524329692155,NA
+"Chestnut Angle","Odontoptilum angulata","Tree Specialist","1998 - 2000","Butterflies",NA,0.00388349514563107,NA,NA
+"Plum Judy","Abisara echerius","Shrub Specialist","1998 - 2000","Butterflies",0.0194174757281553,0.0058252427184466,0.00970873786407767,0.0271844660194175
+"Crimson Rose","Pachliopta hector","Liana Specialist","1998 - 2000","Butterflies",NA,0.00194174757281553,NA,NA
+"Red Helen","Papilio helenus","Tree Specialist","1998 - 2000","Butterflies",NA,NA,NA,0.00388349514563107
+"Great Eggfly","Hypolimnas bolina","Herb Specialist","1998 - 2000","Butterflies",NA,NA,NA,0.00388349514563107
+"Common Pierrot","Castalius rosimon","Tree Specialist","1998 - 2000","Butterflies",NA,NA,NA,0.00194174757281553
+"Red Pierrot","Talicada nyseus","Tree Specialist","1998 - 2000","Butterflies",NA,NA,NA,0.00194174757281553
+"Common Castor","Ariadne merione","Herb Specialist","1998 - 2000","Butterflies",0.00194174757281553,NA,NA,0.00194174757281553
+"Common Map","Cyrestis thyodamas","Tree Specialist","1998 - 2000","Butterflies",NA,NA,NA,0.00194174757281553
+"Common Rose","Pachliopta aritolochiae","Liana Specialist","1998 - 2000","Butterflies",0.00194174757281553,NA,NA,0.00194174757281553
+"Nawab","Charaxes bharata","Generalist","1998 - 2000","Butterflies",0.00194174757281553,NA,NA,NA
+"Great Orange Tip","Hebomoia glaucippe","Tree Specialist","1998 - 2000","Butterflies",NA,NA,NA,0.00194174757281553
+"Jungle Crow","Corvus macrorhynchos","Omnivore","1998 - 2000","Birds",0.0109235352532274,0.00297914597815293,0.00099304865938431,0.0258192651439921
+"Jungle Crow","Corvus macrorhynchos","Omnivore","2016 - 2017","Birds",NA,0.0143493320138545,0.0024740227610094,0.0098960910440376
+"Black Drongo","Dicrurus macrocercus","Insectivore","1998 - 2000","Birds",0.00297914597815293,0.00198609731876862,0.00099304865938431,0.00794438927507448
+"Black Drongo","Dicrurus macrocercus","Insectivore","2016 - 2017","Birds",0.00445324096981692,0.00148441365660564,0.0049480455220188,0.012370113805047
+"Baya Weaver Bird","Ploceus philippinus","Grainivore","1998 - 2000","Birds",NA,0.00297914597815293,NA,NA
+"Pied Kingfisher","Ceryle rudis","Carnivore","1998 - 2000","Birds",0.00099304865938431,0.00297914597815293,NA,NA
+"White Breasted Kingfisher","Halcyon smyrnensis","Carnivore","1998 - 2000","Birds",0.00099304865938431,0.00099304865938431,NA,0.00297914597815293
+"White Breasted Kingfisher","Halcyon smyrnensis","Carnivore","2016 - 2017","Birds",NA,0.00049480455220188,0.00148441365660564,0.00049480455220188
+"Storkbilled Kingfisher","Pelargopsis capensis","Carnivore","1998 - 2000","Birds",NA,0.00099304865938431,NA,NA
+"Cattle Egret","Bubulcus ibis","Carnivore","1998 - 2000","Birds",NA,0.0109235352532274,0.00397219463753724,NA
+"Cattle Egret","Bubulcus ibis","Carnivore","2016 - 2017","Birds",NA,0.00445324096981692,0.00544285007422068,0.00049480455220188
+"Common Iora","Aegithina tiphia","Insectivore","1998 - 2000","Birds",0.00496524329692155,0.00794438927507448,0.00099304865938431,0.00794438927507448
+"Common Iora","Aegithina tiphia","Insectivore","2016 - 2017","Birds",0.00940128649183572,0.0049480455220188,0.00791687283523008,0.00643245917862444
+"Red Vented Bulbul","Pycnonotus cafer","Frugivore","1998 - 2000","Birds",0.0218470705064548,0.0268123138033764,0.00695134061569017,0.0496524329692155
+"Red Vented Bulbul","Pycnonotus cafer","Frugivore","2016 - 2017","Birds",0.00445324096981692,0.0341415141019297,0.0158337456704602,0.0282038594755072
+"Red Whiskered Bulbul","Pycnonotus jocosus","Frugivore","1998 - 2000","Birds",0.0139026812313803,0.0218470705064548,0.00595829195630586,0.0466732869910626
+"Red Whiskered Bulbul","Pycnonotus jocosus","Frugivore","2016 - 2017","Birds",0.0217714002968827,0.0341415141019297,0.0277090549233053,0.0390895596239485
+"Indian Robin","Copsychus fulicatus","Insectivore","1998 - 2000","Birds",0.0109235352532274,0.00496524329692155,0.00198609731876862,0.00397219463753724
+"Indian Robin","Copsychus fulicatus","Insectivore","2016 - 2017","Birds",NA,0.00148441365660564,0.00395843641761504,0.00593765462642256
+"Turtle Dove","Streptopelia orientalis","Grainivore","1998 - 2000","Birds",0.0109235352532274,0.0109235352532274,0.00794438927507448,0.0248262164846077
+"Turtle Dove","Streptopelia orientalis","Grainivore","2016 - 2017","Birds",0.000989609104403761,NA,NA,0.000989609104403761
+"White Wagtail","Motacilla alba","Insectivore","1998 - 2000","Birds",NA,NA,NA,0.00099304865938431
+"White Rumped Vulture","Gyps bengalensis","Carnivore","1998 - 2000","Birds",NA,NA,0.00099304865938431,0.0307845084409136
+"Crested Serpent Eagle","Spilornis cheela","Carnivore","1998 - 2000","Birds",0.00496524329692155,NA,0.00397219463753724,0.00297914597815293
+"Crested Serpent Eagle","Spilornis cheela","Carnivore","2016 - 2017","Birds",NA,0.000989609104403761,NA,0.000989609104403761
+"Purple Moorhen","Porphyrio porphyrio","Omnivore","1998 - 2000","Birds",NA,NA,NA,0.00099304865938431
+"Painted Francolin","Francolinus pictus","Grainivore","1998 - 2000","Birds",0.00695134061569017,0.00595829195630586,0.00198609731876862,0.00397219463753724
+"Spotted Dove","Streptopelia chinensis","Grainivore","1998 - 2000","Birds",0.00099304865938431,0.00496524329692155,NA,0.00198609731876862
+"Spotted Dove","Streptopelia chinensis","Grainivore","2016 - 2017","Birds",0.0024740227610094,0.00346363186541316,0.00296882731321128,0.0049480455220188
+"Long Tailed Shrike","Lanius schach","Carnivore","1998 - 2000","Birds",0.00397219463753724,0.0188679245283019,0.0148957298907646,0.0188679245283019
+"Long Tailed Shrike","Lanius schach","Carnivore","2016 - 2017","Birds",NA,0.0074220682830282,0.000989609104403761,0.00296882731321128
+"Jungle Babler","Turdoides striata","Omnivore","1998 - 2000","Birds",NA,0.0139026812313803,0.00595829195630586,0.0119165839126117
+"Jungle Babler","Turdoides striata","Omnivore","2016 - 2017","Birds",0.00346363186541316,0.00890648193963384,0.0252350321622959,0.0336467095497279
+"Brown Headed Barbet","Psilopogon zeylanicus","Frugivore","1998 - 2000","Birds",0.0268123138033764,0.0148957298907646,0.00297914597815293,0.0228401191658391
+"Brown Headed Barbet","Psilopogon zeylanicus","Frugivore","2016 - 2017","Birds",0.00692726373082632,0.0024740227610094,0.0024740227610094,0.012370113805047
+"House Crow","Corvus splendens","Omnivore","1998 - 2000","Birds",NA,0.00198609731876862,NA,0.00099304865938431
+"House Crow","Corvus splendens","Omnivore","2016 - 2017","Birds",NA,0.0024740227610094,0.00049480455220188,NA
+"Quaker Babler","Alcippe poioicephala","Insectivore","1998 - 2000","Birds",NA,0.00297914597815293,NA,0.00595829195630586
+"Quaker Babler","Alcippe poioicephala","Insectivore","2016 - 2017","Birds",0.00940128649183572,0.00148441365660564,0.00049480455220188,0.000989609104403761
+"Purple Sunbird","Cinnyris asiaticus","Omnivore","1998 - 2000","Birds",0.0734856007944389,0.0377358490566038,0.0228401191658391,0.0337636544190665
+"Purple Sunbird","Cinnyris asiaticus","Omnivore","2016 - 2017","Birds",0.00643245917862444,0.00841167738743196,0.0128649183572489,0.0133597229094508
+"Green Bee Eater","Merops orientalis","Insectivore","1998 - 2000","Birds",NA,0.0119165839126117,0.00496524329692155,0.00893743793445879
+"Green Bee Eater","Merops orientalis","Insectivore","2016 - 2017","Birds",0.00197921820880752,0.00940128649183572,0.00940128649183572,0.0148441365660564
+"Pallid Harrier","Circus macrourus","Carnivore","1998 - 2000","Birds",NA,0.00099304865938431,NA,NA
+"Grey Jungle Fowl","Gallus sonneratii","Omnivore","1998 - 2000","Birds",0.00893743793445879,0.00198609731876862,0.00496524329692155,0.00397219463753724
+"Grey Jungle Fowl","Gallus sonneratii","Omnivore","2016 - 2017","Birds",0.00940128649183572,0.00148441365660564,0.00296882731321128,0.00841167738743196
+"Indian Blackbird","Turdus simillimus","Omnivore","1998 - 2000","Birds",0.0119165839126117,0.00496524329692155,0.00198609731876862,0.00198609731876862
+"Indian Blackbird","Turdus simillimus","Omnivore","2016 - 2017","Birds",0.00049480455220188,0.00049480455220188,0.000989609104403761,0.00197921820880752
+"Shikra","Accipiter badius","Carnivore","1998 - 2000","Birds",NA,NA,NA,0.00297914597815293
+"Shikra","Accipiter badius","Carnivore","2016 - 2017","Birds",0.00049480455220188,0.00049480455220188,0.000989609104403761,0.000989609104403761
+"Grey Breasted Prinia","Prinia hodgsonii","Insectivore","1998 - 2000","Birds",NA,NA,NA,0.00099304865938431
+"Grey Breasted Prinia","Prinia hodgsonii","Insectivore","2016 - 2017","Birds",NA,0.00148441365660564,0.00049480455220188,0.000989609104403761
+"Ashy Wren Warbler","Prinia socialis","Insectivore","1998 - 2000","Birds",NA,0.00099304865938431,0.00099304865938431,0.00198609731876862
+"Ashy Wren Warbler","Prinia socialis","Insectivore","2016 - 2017","Birds",NA,0.000989609104403761,0.00049480455220188,NA
+"Roseringed Parakeet","Psittacula krameri","Frugivore","1998 - 2000","Birds",0.00099304865938431,0.00099304865938431,NA,0.00099304865938431
+"Pale Billed Flowepecker","Dicaeum erythrorhynchos","Frugivore","1998 - 2000","Birds",0.00099304865938431,0.00198609731876862,0.0099304865938431,0.00099304865938431
+"Pale Billed Flowepecker","Dicaeum erythrorhynchos","Frugivore","2016 - 2017","Birds",0.00148441365660564,NA,NA,0.00049480455220188
+"Pied Bushchat","Saxicola caprata","Insectivore","1998 - 2000","Birds",0.00099304865938431,0.00099304865938431,0.00595829195630586,0.00595829195630586
+"Pied Bushchat","Saxicola caprata","Insectivore","2016 - 2017","Birds",NA,0.00296882731321128,0.0024740227610094,0.000989609104403761
+"Laughing Dove","Streptopelia senegalensis","Grainivore","1998 - 2000","Birds",NA,0.00099304865938431,NA,NA
+"Laughing Dove","Streptopelia senegalensis","Grainivore","2016 - 2017","Birds",0.00346363186541316,0.0074220682830282,0.00395843641761504,0.00692726373082632
+"Grey Wagtail","Motacilla cinerea","Insectivore","1998 - 2000","Birds",NA,0.00099304865938431,NA,NA
+"Yellow Wagtail","Motacilla flava","Insectivore","1998 - 2000","Birds",NA,0.00099304865938431,NA,NA
+"Red Wattled Lapwing","Vanellus indicus","Insectivore","1998 - 2000","Birds",NA,NA,NA,0.00099304865938431
+"Red Wattled Lapwing","Vanellus indicus","Insectivore","2016 - 2017","Birds",NA,0.0049480455220188,0.000989609104403761,0.00049480455220188
+"White Cheeked Barbet","Psilopogon viridis","Frugivore","1998 - 2000","Birds",NA,0.00397219463753724,0.00099304865938431,0.00297914597815293
+"White Cheeked Barbet","Psilopogon viridis","Frugivore","2016 - 2017","Birds",0.0153389411182583,0.00544285007422068,0.012370113805047,0.0183077684314696
+"Indian Scimitar Babler","Pomatorhinus horsfieldii","Omnivore","1998 - 2000","Birds",NA,0.00297914597815293,NA,0.00099304865938431
+"Indian Scimitar Babler","Pomatorhinus horsfieldii","Omnivore","2016 - 2017","Birds",0.0024740227610094,0.000989609104403761,0.00544285007422068,0.00544285007422068
+"Blyth's Reed Warbler","Acrocephalus dumetorum","Insectivore","1998 - 2000","Birds",NA,0.00198609731876862,0.00198609731876862,NA
+"Blyth's Reed Warbler","Acrocephalus dumetorum","Insectivore","2016 - 2017","Birds",0.00049480455220188,0.000989609104403761,0.000989609104403761,0.00049480455220188
+"Scarlet Minivet","Pericrocotus speciosus","Insectivore","1998 - 2000","Birds",NA,0.00099304865938431,NA,0.00297914597815293
+"Scarlet Minivet","Pericrocotus speciosus","Insectivore","2016 - 2017","Birds",NA,NA,0.00049480455220188,0.00049480455220188
+"Malabar Crested lark","Galerida malabarica","","1998 - 2000","Birds",NA,NA,NA,0.00198609731876862
+"Malabar Crested lark","Galerida malabarica","","2016 - 2017","Birds",NA,NA,0.000989609104403761,0.000989609104403761
+"Common Kingfisher","Alcedo atthis","Carnivore","1998 - 2000","Birds",0.00198609731876862,NA,0.00099304865938431,0.00198609731876862
+"Common Kingfisher","Alcedo atthis","Carnivore","2016 - 2017","Birds",NA,NA,0.000989609104403761,NA
+"Koel","Eudynamys scolopaceus","Frugivore","1998 - 2000","Birds",NA,NA,0.00099304865938431,0.00099304865938431
+"Robin, Magpie","Copsychus saularis","Insectivore","1998 - 2000","Birds",0.00297914597815293,0.00099304865938431,0.00099304865938431,0.00397219463753724
+"Robin, Magpie","Copsychus saularis","Insectivore","2016 - 2017","Birds",0.0024740227610094,0.00791687283523008,0.00148441365660564,0.00296882731321128
+"Purple Rumped Sunbird","Leptocoma zeylonica","Insectivore","1998 - 2000","Birds",0.00099304865938431,NA,NA,0.00198609731876862
+"Purple Rumped Sunbird","Leptocoma zeylonica","Insectivore","2016 - 2017","Birds",0.00593765462642256,0.0024740227610094,0.00197921820880752,0.0049480455220188
+"Forest Wagtail","Dendronanthus indicus","Insectivore","1998 - 2000","Birds",0.00695134061569017,NA,NA,NA
+"Asian Paradise Flycatcher","Terpsiphone paradis","Insectivore","1998 - 2000","Birds",0.00297914597815293,0.00297914597815293,0.00297914597815293,0.00198609731876862
+"Asian Paradise Flycatcher","Terpsiphone paradis","Insectivore","2016 - 2017","Birds",0.00197921820880752,0.00049480455220188,0.000989609104403761,0.00049480455220188
+"Yellow Browed Bulbul","Iole indica","Omnivore","1998 - 2000","Birds",NA,0.00198609731876862,0.00099304865938431,NA
+"Yellow Browed Bulbul","Iole indica","Omnivore","2016 - 2017","Birds",0.00197921820880752,NA,0.00049480455220188,0.00049480455220188
+"Common Myna","Acridotheres tristis","Insectivore","1998 - 2000","Birds",NA,NA,0.00099304865938431,NA
+"Common Myna","Acridotheres tristis","Insectivore","2016 - 2017","Birds",NA,0.00544285007422068,0.00296882731321128,0.00544285007422068
+"House Swift","Apus nipalensis","Insectivore","1998 - 2000","Birds",NA,NA,0.00397219463753724,NA
+"House Swift","Apus nipalensis","Insectivore","2016 - 2017","Birds",NA,NA,NA,0.00148441365660564
+"Pond Heron","Ardeola grayii","Carnivore","1998 - 2000","Birds",NA,NA,0.00099304865938431,NA
+"Pond Heron","Ardeola grayii","Carnivore","2016 - 2017","Birds",NA,0.00148441365660564,0.000989609104403761,0.000989609104403761
+"Alpine Swift","Apus melba","Insectivore","1998 - 2000","Birds",NA,0.00198609731876862,NA,0.00397219463753724
+"Black Naped Oriole","Oriolus chinensis","Omnivore","1998 - 2000","Birds",NA,0.00099304865938431,NA,NA
+"Asian Fairy Bluebird","Irena puella","Frugivore","1998 - 2000","Birds",NA,0.00099304865938431,NA,NA
+"Rufous Bellied Babler","Dumetia hyperythra","Insectivore","1998 - 2000","Birds",NA,0.00099304865938431,NA,NA
+"Rufous Bellied Babler","Dumetia hyperythra","Insectivore","2016 - 2017","Birds",0.00049480455220188,NA,NA,NA
+"Blue Rock Pidgeon","Columba livia","Grainivore","1998 - 2000","Birds",0.00099304865938431,NA,NA,NA
+"Common Tailorbird","Orthotomus sutorius","Insectivore","1998 - 2000","Birds",0.00198609731876862,NA,NA,0.00198609731876862
+"Common Tailorbird","Orthotomus sutorius","Insectivore","2016 - 2017","Birds",NA,0.00148441365660564,0.000989609104403761,0.00049480455220188
+"Scaly Breasted Munia","Lonchura punctulata","Grainivore","1998 - 2000","Birds",0.00198609731876862,NA,NA,0.00397219463753724
+"Scaly Breasted Munia","Lonchura punctulata","Grainivore","2016 - 2017","Birds",NA,NA,NA,0.000989609104403761
+"Plum Headed Parakeet","Psittacula cyanocephala","Frugivore","1998 - 2000","Birds",0.00099304865938431,0.00099304865938431,NA,NA
+"Plum Headed Parakeet","Psittacula cyanocephala","Frugivore","2016 - 2017","Birds",NA,NA,0.00049480455220188,0.00148441365660564
+"Southern Coucal","Centropus sinensis","Omnivore","1998 - 2000","Birds",NA,0.00198609731876862,NA,0.00099304865938431
+"Southern Coucal","Centropus sinensis","Omnivore","2016 - 2017","Birds",0.000989609104403761,0.00197921820880752,0.00296882731321128,0.00544285007422068
+"Jungle Bush Quail","Perdicula asiatica","Grainivore","1998 - 2000","Birds",NA,NA,NA,0.00297914597815293
+"Coppersmith Barbet","Psilopogon haemacephalus","Frugivore","1998 - 2000","Birds",NA,0.00099304865938431,NA,NA
+"Coppersmith Barbet","Psilopogon haemacephalus","Frugivore","2016 - 2017","Birds",NA,0.00049480455220188,NA,0.00346363186541316
+"Black Bulbul","Hypsipetes leucocephalus","Frugivore","1998 - 2000","Birds",NA,NA,0.00099304865938431,0.00099304865938431
+"Black Bulbul","Hypsipetes leucocephalus","Frugivore","2016 - 2017","Birds",0.00049480455220188,NA,NA,NA
+"Jungle Myna","Acridotheres fuscus","Omnivore","1998 - 2000","Birds",NA,NA,NA,0.00198609731876862
+"Jungle Myna","Acridotheres fuscus","Omnivore","2016 - 2017","Birds",NA,NA,0.0049480455220188,0.00346363186541316
+"Spotted Babler","Pellorneum ruficeps","Insectivore","1998 - 2000","Birds",NA,0.00099304865938431,NA,0.00198609731876862
+"Spotted Babler","Pellorneum ruficeps","Insectivore","2016 - 2017","Birds",0.012370113805047,0.00544285007422068,0.0128649183572489,0.0113805047006432
+"Rose finch","Carpodacus erythrinus","Frugivore","1998 - 2000","Birds",NA,0.00198609731876862,NA,NA
+"Rose finch","Carpodacus erythrinus","Frugivore","2016 - 2017","Birds",NA,0.00395843641761504,NA,0.000989609104403761
+"White Bellied Blue Flycatcher","Cyornis pallidipes","Insectivore","1998 - 2000","Birds",NA,NA,NA,0.00099304865938431
+"White Bellied Blue Flycatcher","Cyornis pallidipes","Insectivore","2016 - 2017","Birds",0.00296882731321128,NA,0.00197921820880752,NA
+"Black Shouldered Kite","Elanus axillaris","Carnivore","1998 - 2000","Birds",NA,NA,0.00099304865938431,NA
+"Black Shouldered Kite","Elanus axillaris","Carnivore","2016 - 2017","Birds",NA,0.00197921820880752,0.00049480455220188,NA
+"Oriental Magpie Robin","Copsychus saularis","Insectivore","1998 - 2000","Birds",0.00297914597815293,0.00099304865938431,0.00099304865938431,0.00397219463753724
+"Oriental Magpie Robin","Copsychus saularis","Insectivore","2016 - 2017","Birds",0.0024740227610094,0.00791687283523008,0.00148441365660564,0.00296882731321128
+"Golden Fronted Leafbird","Chloropsis aurifrons","Omnivore","2016 - 2017","Birds",0.000989609104403761,0.00445324096981692,0.00049480455220188,0.0024740227610094
+"Red Whiskered Bubul","Pycnonotus jocosus","Omnivore","1998 - 2000","Birds",0.0139026812313803,0.0218470705064548,0.00595829195630586,0.0466732869910626
+"Red Whiskered Bubul","Pycnonotus jocosus","Omnivore","2016 - 2017","Birds",0.0217714002968827,0.0341415141019297,0.0277090549233053,0.0390895596239485
+"Common Tailor Bird","Orthotomus sutorius","Insectivore","1998 - 2000","Birds",0.00198609731876862,NA,NA,0.00198609731876862
+"Common Tailor Bird","Orthotomus sutorius","Insectivore","2016 - 2017","Birds",NA,0.00148441365660564,0.000989609104403761,0.00049480455220188
+"Red Spurfowl","Galloperdix spadicea","Frugivore","2016 - 2017","Birds",NA,0.00049480455220188,0.00049480455220188,0.00049480455220188
+"Yellow Throated Sparrow","Gymnoris xanthocollis","Grainivore","2016 - 2017","Birds",NA,NA,NA,0.00049480455220188
+"Oriental Trutle Dove","Streptopelia orientalis","Grainivore","1998 - 2000","Birds",0.0109235352532274,0.0109235352532274,0.00794438927507448,0.0248262164846077
+"Oriental Trutle Dove","Streptopelia orientalis","Grainivore","2016 - 2017","Birds",0.000989609104403761,NA,NA,0.000989609104403761
+"Orange Minivet","Pericrocotus flammeus","Insectivore","2016 - 2017","Birds",0.00445324096981692,NA,0.00148441365660564,0.000989609104403761
+"Little Egret","Egretta garzetta","Carnivore","2016 - 2017","Birds",NA,NA,0.00049480455220188,0.00049480455220188
+"Tree Pipit","Anthus trivialis","Insectivore","2016 - 2017","Birds",NA,NA,NA,0.00049480455220188
+"Crimson Backed Sunbird","Leptocoma minima","Insectivore","2016 - 2017","Birds",0.0133597229094508,0.000989609104403761,0.0118753092528451,0.00692726373082632
+"Orange Headed Ground Thrush","Geokichla citrina","Omnivore","2016 - 2017","Birds",0.00197921820880752,NA,NA,0.000989609104403761
+"Puff Throated Babler","Pellorneum ruficeps","Insectivore","1998 - 2000","Birds",NA,0.00099304865938431,NA,0.00198609731876862
+"Puff Throated Babler","Pellorneum ruficeps","Insectivore","2016 - 2017","Birds",0.012370113805047,0.00544285007422068,0.0128649183572489,0.0113805047006432
+"Brown Cheeked Fulvetta","Alcippe poioicephala","Insectivore","1998 - 2000","Birds",NA,0.00297914597815293,NA,0.00595829195630586
+"Brown Cheeked Fulvetta","Alcippe poioicephala","Insectivore","2016 - 2017","Birds",0.00940128649183572,0.00148441365660564,0.00049480455220188,0.000989609104403761
+"Malabar Whistling Thrush","Myophonus horsfieldii","Insectivore","2016 - 2017","Birds",0.0153389411182583,0.00346363186541316,0.0108857001484414,0.00890648193963384
+"Blue Naped Monarch","Hypothymis azurea","Insectivore","2016 - 2017","Birds",0.00148441365660564,NA,NA,NA
+"Emerald Dove","Chalcophaps indica","Grainivore","2016 - 2017","Birds",0.00197921820880752,NA,0.00049480455220188,NA
+"Golden Oriole","Oriolus kundoo","Omnivore","2016 - 2017","Birds",0.000989609104403761,0.00049480455220188,0.000989609104403761,0.00148441365660564
+"Great Tit","Parus major","Omnivore","2016 - 2017","Birds",NA,NA,0.00148441365660564,NA
+"Indian Grey Hornbill","Ocyceros birostris","Frugivore","2016 - 2017","Birds",NA,NA,0.000989609104403761,NA
+"Sulphur Bellied Warbler","Phylloscopus griseolus","Insectivore","2016 - 2017","Birds",NA,NA,0.00049480455220188,NA
+"Tickle's Blue Flycatcher","Cyornis tickelliae","Insectivore","2016 - 2017","Birds",NA,0.00148441365660564,NA,NA
+"Bay Backed shrike","Lanius vittatus","Insectivore","2016 - 2017","Birds",NA,0.00049480455220188,NA,0.000989609104403761
+"Nilgiri Wood Pidgeon","Columba elphinstonii","Frugivore","2016 - 2017","Birds",NA,NA,0.00296882731321128,NA
+"Common Hawk Cuckoo","Hierococcyx varius","Omnivore","2016 - 2017","Birds",NA,NA,NA,0.000989609104403761
+"Common Wood Shrike","Tephrodornis pondicerianus","Insectivore","2016 - 2017","Birds",NA,NA,NA,0.00049480455220188
+"Vigor's Sunbird","Aethopyga vigorsii","Frugivore","2016 - 2017","Birds",0.00049480455220188,0.00148441365660564,NA,0.00049480455220188
+"White Rumped Shama","Copsychus malabaricus","Insectivore","2016 - 2017","Birds",0.00148441365660564,NA,NA,NA
+"Malabar Lark","Galerida malabarica","Omnivore","1998 - 2000","Birds",NA,NA,NA,0.00198609731876862
+"Malabar Lark","Galerida malabarica","Omnivore","2016 - 2017","Birds",NA,NA,0.000989609104403761,0.000989609104403761
+"LAughing Dove","Streptopelia senegalensis","Grainivore","1998 - 2000","Birds",NA,0.00099304865938431,NA,NA
+"LAughing Dove","Streptopelia senegalensis","Grainivore","2016 - 2017","Birds",0.00346363186541316,0.0074220682830282,0.00395843641761504,0.00692726373082632
+"Black Headed Oriole","Oriolus xanthornus","Frugivore","2016 - 2017","Birds",0.00197921820880752,0.00148441365660564,0.00148441365660564,0.00049480455220188
+"Thick Billed Flowerpecker","Dicaeum agile","Frugivore","2016 - 2017","Birds",0.000989609104403761,NA,NA,NA
+"Black Naped Monarch","Hypothymis azurea","Insectivore","2016 - 2017","Birds",0.00148441365660564,NA,NA,NA
+"Little Swift","Apus affinis","Insectivore","2016 - 2017","Birds",NA,0.00296882731321128,NA,NA
+"Pale-billed Flowerpecker","Dicaeum erythrorhynchos","Frugivore","1998 - 2000","Birds",0.00099304865938431,0.00198609731876862,0.0099304865938431,0.00099304865938431
+"Pale-billed Flowerpecker","Dicaeum erythrorhynchos","Frugivore","2016 - 2017","Birds",0.00148441365660564,NA,NA,0.00049480455220188
+"Brahminy Starling","Sturnia pagodarum","Omnivore","2016 - 2017","Birds",NA,0.00197921820880752,NA,NA
+"Small Minivet","Pericrocotus cinnamomeus","Insectivore","2016 - 2017","Birds",NA,0.00049480455220188,0.000989609104403761,NA
+"Grey Heron","Ardea cinerea","Carnivore","2016 - 2017","Birds",NA,0.00049480455220188,NA,NA
+"White Eyed Buzzard","Butastur teesa","Carnivore","2016 - 2017","Birds",NA,NA,NA,0.00049480455220188
+"Large Grey babler","Turdoides malcolmi","Insectivore","2016 - 2017","Birds",NA,NA,NA,0.00197921820880752
+"Brown Cheeked FUlvetta","Alcippe poioicephala","Insectivore","1998 - 2000","Birds",NA,0.00297914597815293,NA,0.00595829195630586
+"Brown Cheeked FUlvetta","Alcippe poioicephala","Insectivore","2016 - 2017","Birds",0.00940128649183572,0.00148441365660564,0.00049480455220188,0.000989609104403761
+"White Browed Wagtail","Motacilla maderaspatensis","Insectivore","2016 - 2017","Birds",NA,0.000989609104403761,NA,NA
+"Little Stint","Calidris minuta","Insectivore","2016 - 2017","Birds",NA,NA,0.00148441365660564,NA
+"Tawny Bellied Babler","Dumetia hyperythra","Insectivore","1998 - 2000","Birds",NA,0.00099304865938431,NA,NA
+"Tawny Bellied Babler","Dumetia hyperythra","Insectivore","2016 - 2017","Birds",0.00049480455220188,NA,NA,NA
+"Little Cormorant","Microcarbo niger","Carnivore","2016 - 2017","Birds",NA,0.000989609104403761,0.000989609104403761,0.00049480455220188
+"Paddyfeild Pipit","Anthus rufulus","Insectivore","2016 - 2017","Birds",NA,0.00049480455220188,NA,NA
+"Oriental Magpie RObin","Copsychus saularis","Insectivore","1998 - 2000","Birds",0.00297914597815293,0.00099304865938431,0.00099304865938431,0.00397219463753724
+"Oriental Magpie RObin","Copsychus saularis","Insectivore","2016 - 2017","Birds",0.0024740227610094,0.00791687283523008,0.00148441365660564,0.00296882731321128
+"Oriental Honey Buzzard","Pernis ptilorhynchus","Insectivore","2016 - 2017","Birds",NA,NA,NA,0.00197921820880752
+"Paddyfeild Warbler","Acrocephalus agricola","Insectivore","2016 - 2017","Birds",NA,NA,NA,0.00148441365660564
+"Indian Bushchat","Saxicola caprata","Insectivore","1998 - 2000","Birds",0.00099304865938431,0.00099304865938431,0.00595829195630586,0.00595829195630586
+"Indian Bushchat","Saxicola caprata","Insectivore","2016 - 2017","Birds",NA,0.00296882731321128,0.0024740227610094,0.000989609104403761
+"Racket Tailed Drongo","Dicrurus remifer","Insectivore","2016 - 2017","Birds",0.00049480455220188,NA,NA,NA
+"Jungle Prinia","Prinia sylvatica","Insectivore","2016 - 2017","Birds",NA,0.00346363186541316,0.00049480455220188,0.00197921820880752
+"Jungle babler","Turdoides striata","Omnivore","1998 - 2000","Birds",NA,0.0139026812313803,0.00595829195630586,0.0119165839126117
+"Jungle babler","Turdoides striata","Omnivore","2016 - 2017","Birds",0.00346363186541316,0.00890648193963384,0.0252350321622959,0.0336467095497279
+"Plum Headed parakeet","Psittacula cyanocephala","Frugivore","1998 - 2000","Birds",0.00099304865938431,0.00099304865938431,NA,NA
+"Plum Headed parakeet","Psittacula cyanocephala","Frugivore","2016 - 2017","Birds",NA,NA,0.00049480455220188,0.00148441365660564
+"Brown headed Barbet","Psilopogon zeylanicus","Frugivore","1998 - 2000","Birds",0.0268123138033764,0.0148957298907646,0.00297914597815293,0.0228401191658391
+"Brown headed Barbet","Psilopogon zeylanicus","Frugivore","2016 - 2017","Birds",0.00692726373082632,0.0024740227610094,0.0024740227610094,0.012370113805047
+"Plain Prinia","Prinia inornata","Insectivore","2016 - 2017","Birds",NA,0.00148441365660564,NA,0.00197921820880752
+"Common Treepie","Dendrocitta vagabunda","Omnivore","2016 - 2017","Birds",NA,0.00049480455220188,NA,NA
+"Plain Martin","Riparia paludicola","Insectivore","2016 - 2017","Birds",NA,0.00296882731321128,0.00940128649183572,0.0148441365660564
+"Taiga Flycatcher","Ficedula albicilla","Insectivore","2016 - 2017","Birds",0.00049480455220188,0.000989609104403761,0.00049480455220188,0.00148441365660564
+"Intermediate Egret","Ardea intermedia","Carnivore","2016 - 2017","Birds",NA,0.00049480455220188,NA,NA
+"Citrine Wagtail","Motacilla citreola","Insectivore","2016 - 2017","Birds",NA,0.00049480455220188,NA,0.00049480455220188
+"Common Sandpiper","Actitis hypoleucos","Insectivore","2016 - 2017","Birds",NA,0.000989609104403761,NA,0.00049480455220188
+"Verditer Flycatcher","Eumyias thalassinus","Insectivore","2016 - 2017","Birds",NA,NA,0.00049480455220188,NA
+"indian Robin","Copsychus fulicatus","Insectivore","1998 - 2000","Birds",0.0109235352532274,0.00496524329692155,0.00198609731876862,0.00397219463753724
+"indian Robin","Copsychus fulicatus","Insectivore","2016 - 2017","Birds",NA,0.00148441365660564,0.00395843641761504,0.00593765462642256
+"Black Eagle","Ictinaetus malaiensis","Carnivore","2016 - 2017","Birds",NA,NA,NA,0.00049480455220188
+"Common Rosefinch","Carpodacus erythrinus","Grainivore","1998 - 2000","Birds",NA,0.00198609731876862,NA,NA
+"Common Rosefinch","Carpodacus erythrinus","Grainivore","2016 - 2017","Birds",NA,0.00395843641761504,NA,0.000989609104403761
+"Clamorous Reed Warbler","Acrocephalus stentoreus","Insectivore","2016 - 2017","Birds",NA,NA,NA,0.00049480455220188
+"Eurasian Collared Dove","Streptopelia decaocto","Grainivore","2016 - 2017","Birds",NA,0.00049480455220188,NA,NA
+"Ashy Prinia","Prinia socialis","Insectivore","1998 - 2000","Birds",NA,0.00099304865938431,0.00099304865938431,0.00198609731876862
+"Ashy Prinia","Prinia socialis","Insectivore","2016 - 2017","Birds",NA,0.000989609104403761,0.00049480455220188,NA
+"Ashy Drongo","Dicrurus leucophaeus","Insectivore","2016 - 2017","Birds",NA,0.00049480455220188,0.00049480455220188,0.000989609104403761
+"White Browed Fantail","Rhipidura aureola","Insectivore","2016 - 2017","Birds",0.00049480455220188,NA,NA,NA
+"Indian Silverbill","Euodice malabarica","Grainivore","2016 - 2017","Birds",NA,0.00049480455220188,NA,NA
+"Grey Francolin","Francolinus pondicerianus","Grainivore","2016 - 2017","Birds",NA,NA,0.00049480455220188,0.000989609104403761

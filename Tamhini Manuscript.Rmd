@@ -2,7 +2,7 @@
 title: "Shifts in bird and butterfly communities of Tamhini Ghat"
 output:
   html_document:
-    codefolding: yes
+    codefolding: true
     css: style.css
     df_print: kable
     theme: spacelab
@@ -134,18 +134,86 @@ veg_butterfly <- abn%>%
   column_to_rownames(var = "sample")
 ```
 
+```{r results=F, fig.height=8}
+# sample info
 
-```{r}
+samp <- abn%>%
+  left_join(transects, by = c("Transect"))%>%
+  dplyr::select(Study, Transect, Habitat)%>%
+  distinct()%>%
+  mutate(sample = paste(Study, "_", Transect))
+```
+
+```{r fig.height=8, results=F}
 ## Species accumulation curves
 
-specaccum(veg_butterfly)
+rarebutts <- rarecurve(veg_butterfly) ## butterflies
 
-rareslope(veg_butterfly, sample = 200)
+# Coerce data into "long" form.
+## taken from https://stat.ethz.ch/pipermail/r-sig-ecology/2018-December/005867.html
 
-rarefy(veg_butterfly, sample = 200)
+names(rarebutts) <- samp$sample
 
-rarebutts <- rarecurve(veg_butterfly)
+protox <- mapply(
+  FUN = function(x, y) {
+    mydf <- as.data.frame(x)
+    colnames(mydf) <- "value"
+    mydf$sites <- y
+    mydf$subsample <- attr(x, "Subsample")
+    mydf}, 
+  x = rarebutts, y = as.list(names(rarebutts)), SIMPLIFY = FALSE)
+
+rarebutts.df <- do.call(rbind, protox)
+
+rownames(rarebutts.df) <- NULL  # pretty
+
+rarebutts.df$Taxa <- "Butterflies"
+
+## repeating for birds
+
+rarebirds <- rarecurve(veg_birds)
+
+# Coerce data into "long" form.
+## taken from https://stat.ethz.ch/pipermail/r-sig-ecology/2018-December/005867.html
+
+names(rarebirds) <- samp$sample
+
+protox <- mapply(
+  FUN = function(x, y) {
+    mydf <- as.data.frame(x)
+    colnames(mydf) <- "value"
+    mydf$sites <- y
+    mydf$subsample <- attr(x, "Subsample")
+    mydf}, 
+  x = rarebirds, y = as.list(names(rarebirds)), SIMPLIFY = FALSE)
+
+rarebirds.df <- do.call(rbind, protox)
+
+rownames(rarebirds.df) <- NULL  # pretty
+
+rarebirds.df$Taxa <- "Birds"
+
+## joining rarefaction values
+
+rarefied <- full_join(rarebirds.df, rarebutts.df)
+
+## adding sample info
+
+rarefied <- left_join(rarefied, samp, by = c("sites" = "sample"))
 ```
+
+
+```{r fig.height=8}
+# Plot.
+ggplot(rarefied, aes(x = subsample, y = value, col = Study))+
+  geom_line(size = 1)+
+  labs(x = "Sample Size", y = "Species")+
+  facet_grid(Taxa ~ Transect)
+
+ggsave(last_plot(), filename = "./Figures and Tables/figureA.png", height = 8, width = 16, dpi = 300)  
+
+```
+
 
 # Change in diversity across years
 
