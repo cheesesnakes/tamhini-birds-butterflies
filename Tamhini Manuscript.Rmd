@@ -246,6 +246,33 @@ Fewer species were encountered in sites with lower effort in the previous study,
 
 ## Shannon diversity
 
+```{r}
+
+# Function to caluculate Shannon diversity
+
+shanon <- function(c){
+  
+  if(sum(c) < 20){
+    
+    H <- "Sample size too small"
+    
+  }else{
+    
+    require(SpadeR)
+    require(tidyr)
+    
+    div <- Diversity(c, datatype = "abundance")
+    
+    H <- data.frame(div$Shannon_diversity)%>%
+      rownames_to_column("Method")
+    
+  }
+  
+  return(H)
+  
+}
+```
+
 ```{r fig.height=6}
 
 # Calculating diversity in each site over years
@@ -256,14 +283,16 @@ div_year <- abn%>%
   spread(Specific.Epithet, n, fill = c(0))%>%
   group_by(Study, Taxa, Transect)%>%
   nest()%>%
-  mutate(H = map_dbl(data, ~vegetarian::d(.[-1], lev = "alpha", q = 1)))%>%
-  dplyr::select(-data)
+  mutate(H = map(data, ~shanon(.)))%>%
+  dplyr::select(-data)%>%
+  unnest(H)%>%
+  filter(grepl("MLE", Method) | is.na(Method))
 
 # Summary
 
 div_year%>%
   group_by(Taxa, Study)%>%
-  skimr::skim(H)%>%
+  skimr::skim(Estimate)%>%
   skimr::yank("numeric")%>%
   dplyr::select(Taxa, Study, mean, sd)
 
@@ -272,7 +301,7 @@ div_year%>%
 div_year%>%
   group_by(Taxa)%>%
   nest()%>%
-  mutate(test = map(data, ~t.test(H ~ Study, data = .)),
+  mutate(test = map(data, ~t.test(Estimate ~ Study, data = .)),
          sumry = map(test, broom::tidy))%>%
   dplyr::select(sumry)%>%
   unnest()%>%
@@ -282,7 +311,7 @@ div_year%>%
 # plot
 
 div_year%>%
-  ggplot(aes(Taxa, H, fill = Study))+
+  ggplot(aes(Taxa, Estimate, fill = Study))+
   geom_boxplot(width = 0.25, alpha = 0.5)+
   labs(y = "Effective number of species")+
   scale_fill_brewer(palette = "Greys")
@@ -423,14 +452,16 @@ guilds <- abn%>%
   spread(Specific.Epithet, n, fill = c(0))%>%
   group_by(Study, Taxa, Transect, Guild)%>%
   nest()%>%
-  mutate(H = map_dbl(data, ~vegetarian::d(.[-1], lev = "alpha", q = 1)))%>%
-  dplyr::select(-data)
+  mutate(H = map(data, ~shanon(.)))%>%
+  dplyr::select(-data)%>%
+  unnest(H)%>%
+  filter(grepl("MLE", Method) | is.na(Method))
 
 # summary
 
 guilds%>%
   group_by(Taxa, Guild, Study)%>%
-  skimr::skim(H)%>%
+  skimr::skim(Estimate)%>%
   skimr::yank("numeric")%>%
   dplyr::select(Taxa, Guild, Study, mean, sd)
 
@@ -441,7 +472,7 @@ guilds%>%
   complete(nesting(Study, Taxa), Transect, Guild, fill = list(H = 0))%>%
   group_by(Taxa, Guild)%>%
   nest()%>%
-  mutate(test = map(data, ~t.test(H ~ Study, data = .)),
+  mutate(test = map(data, ~t.test(Estimate ~ Study, data = .)),
          sumry = map(test, broom::tidy))%>%
   dplyr::select(sumry)%>%
   unnest()%>%
@@ -449,7 +480,7 @@ guilds%>%
 
 # plot
 guilds%>%
-  ggplot(aes(reorder(Guild, H), H, fill = Study))+
+  ggplot(aes(reorder(Guild, Estimate), Estimate, fill = Study))+
   geom_boxplot(width = 0.25, alpha = 0.5, position = position_dodge(preserve = "single"))+
   labs(y = "Effective number of species", x = "Trophic Guild")+
   scale_x_discrete(guide = guide_axis(n.dodge = 2))+
@@ -697,9 +728,9 @@ st_crs(waterways) <- 4326
 
 library(elevatr)
 
-tam_elev <- elevatr::get_elev_raster(locations = tamhini, z = 8)
+tam_elev <- get_elev_raster(locations = tamhini, z = 8) # fix contours
 
-tam_contours <- raster::rasterToContour(tam_elev, levels = seq(0, 1000, 100))
+tam_contours <- rasterToContour(tam_elev, levels = seq(0, 1000, 100))
 ```
 
 
@@ -713,9 +744,9 @@ library(grid)
 
 tm_shape(forest)+ #forested lands
   tm_polygons(col = "#81AF81", alpha = 0.5, border.col = NULL)+
-tm_shape(tam_contours)+
-  tm_lines(col = "white", lty = "dotted")+
-  tm_text(text = "level", auto.placement = T)+
+#tm_shape(tam_contours)+
+ # tm_lines(col = "white", lty = "dotted")+
+  #tm_text(text = "level", auto.placement = T)+
 tm_shape(water)+
   tm_polygons(col = "#77A1CB", border.col = NULL)+
 tm_shape(waterways)+
@@ -743,9 +774,9 @@ fig1a <- grid.grab()
 
 tm_shape(forest)+ #forested lands
   tm_polygons(col = "#81AF81", alpha = 0.5, border.col = NULL)+
-tm_shape(tam_contours)+
-  tm_lines(col = "white", lty = "dotted")+
-  tm_text(text = "level", auto.placement = T)+
+#tm_shape(tam_contours)+
+ # tm_lines(col = "white", lty = "dotted")+
+  #tm_text(text = "level", auto.placement = T)+
 tm_shape(water)+
   tm_polygons(col = "#77A1CB", border.col = NULL)+
   tm_text(text = "name", remove.overlap = F, size = 0.5)+  
