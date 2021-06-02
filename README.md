@@ -4,6 +4,9 @@
 
 This repo contains the code for analysis in R and data used in the manuscript.
 
+[![DOI](https://zenodo.org/badge/300211323.svg)](https://zenodo.org/badge/latestdoi/300211323)
+
+
 ## Abstract
 
 Ecological communities are structured through multiple processes. Human disturbance can alter these processes at multiple spatial levels, thus changing diversity and community structure. Monitoring indicator taxa that are sensitive to environmental change offers valuable insight into both the processes that are affected as well as the efficacy conservation management to mitigate these effects. We analyze changes in bird and butterfly communities of Tamhini wildlife sanctuary in the Northern Western Ghats of India after two decades of changing land use and management. Further, we compare these effects across functional groups in these communities and determine the effect of these shifts on overall community function. We used line transects to determine abundance of bird and butterfly species across habitats and land use characteristics. We then compared our findings to previous surveys. Species diversity has increased for both taxa, however, community composition in all sites was significantly different than the previous study. The degree of trophic and habitat specializations of both was not significantly different. Thus, the underlying structure of both bird and butterfly communities may have changed. Changing land use can have effects at multiple trophic levels and have cascading effects on community assembly and ecosystem function. Long-term monitoring of indicator taxa such as birds and butterflies at decadal scales may help ensure conservation of the entire ecosystems through dynamic management by looking at metrics beyond mere richness or diversity.
