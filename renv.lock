@@ -121,6 +121,13 @@
       "Repository": "CRAN",
       "Hash": "9addc7e2c5954eca5719928131fed98c"
     },
+    "bookdown": {
+      "Package": "bookdown",
+      "Version": "0.22",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "8fb0b67dfdf9d751fc93cb0036def3cc"
+    },
     "broom": {
       "Package": "broom",
       "Version": "0.7.6",
@@ -776,6 +783,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "f518ba47713f92d0d603eec7c6888faf"
+    },
+    "rmdformats": {
+      "Package": "rmdformats",
+      "Version": "1.0.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "5d278f6266f796c4bd0c3e8439d7f50d"
     },
     "rstudioapi": {
       "Package": "rstudioapi",
