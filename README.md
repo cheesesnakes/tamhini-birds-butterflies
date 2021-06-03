@@ -23,7 +23,7 @@ Ecological communities are structured through multiple processes. Human disturba
   ```
   *OR*
   
-  Open the `Tamhini-Manuscript.html` file in chrome or any web browser.
+  Go to https://cheesesnakes.github.io/tamhini-birds-butterflies/
   
   </details>
  

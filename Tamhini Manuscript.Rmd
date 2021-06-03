@@ -1,17 +1,12 @@
 ---
 title: "Shifts in bird and butterfly communities of Tamhini Ghat"
 output:
-  html_document:
-    codefolding: true
+  rmdformats::robobook:
+    codefolding: hide
     css: style.css
     df_print: kable
-    theme: spacelab
-    toc: yes
-    toc_float: yes
-    toc_depth: 2
-    number_sections: yes
-subtitle: Analysis for manuscript
-Author: Shawn Dsouza
+    subtitle: Analysis for manuscript
+Author: "Shawn Dsouza and Anand Padhye"
 ---
 
 
