@@ -300,7 +300,7 @@ div_year%>%
          stat = map(test, broom::glance))%>%
   dplyr::select(sumry, stat)%>%
   unnest()%>%
-  select(Taxa:r.squared)
+  dplyr::select(Taxa:r.squared)
 ```
 
 Plotting diversity across studies: 
