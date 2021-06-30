@@ -6,7 +6,7 @@ output:
     css: style.css
     df_print: kable
     subtitle: Analysis for manuscript
-Author: "Shawn Dsouza and Anand Padhye"
+author: "Shawn Dsouza and Anand Padhye"
 ---
 
 
@@ -15,12 +15,14 @@ Author: "Shawn Dsouza and Anand Padhye"
 This file was last update on `r Sys.Date()`
 
 ```{r setup, include=FALSE, message=FALSE, warning=FALSE}
-
 options(max.print="75")
 
 knitr::opts_chunk$set(error = T, warning = F, message = F, tidy = T, 
                       cache = T, dpi = 300, fig.align = "center", fig.height = 4.5, fig.width = 8)
+```
 
+
+```{r message=FALSE, warning=FALSE}
 #Required libraries
 
 library(tidyverse)
@@ -97,7 +99,7 @@ Uneveness in sampling effort across sites in studies may bias estimates of chang
 
 ## Rarefying across sites
 
-```{r}
+```{r results=FALSE}
 library(vegan)
 
 # input for vegan
@@ -127,9 +129,7 @@ veg_butterfly <- abn%>%
   ungroup()%>%
   spread(Specific.Epithet, n, fill = c(n = 0))%>%
   column_to_rownames(var = "sample")
-```
 
-```{r results=F, fig.height=8}
 # sample info
 
 samp <- abn%>%
@@ -137,9 +137,7 @@ samp <- abn%>%
   dplyr::select(Study, Transect, Habitat)%>%
   distinct()%>%
   mutate(sample = paste(Study, "_", Transect))
-```
 
-```{r fig.height=8, results=F}
 ## Species accumulation curves
 
 rarebutts <- rarecurve(veg_butterfly) ## butterflies
@@ -198,7 +196,7 @@ rarefied <- left_join(rarefied, samp, by = c("sites" = "sample"))
 ```
 
 
-```{r fig.height=8}
+```{r fig.height=9, fig.width=16}
 # Plot.
 ggplot(rarefied, aes(x = subsample, y = value, col = Study))+
   geom_line(size = 1)+
@@ -268,9 +266,6 @@ shanon <- function(c){
   return(H)
   
 }
-```
-
-```{r fig.height=6}
 
 # Calculating diversity in each site over years
 
@@ -292,20 +287,25 @@ div_year%>%
   skimr::skim(Estimate)%>%
   skimr::yank("numeric")%>%
   dplyr::select(Taxa, Study, mean, sd)
+```
 
-# t test
+Linear model testing change in diversity across years:
 
+```{r fig.height=6}
 div_year%>%
   group_by(Taxa)%>%
   nest()%>%
-  mutate(test = map(data, ~t.test(Estimate ~ Study, data = .)),
-         sumry = map(test, broom::tidy))%>%
-  dplyr::select(sumry)%>%
+  mutate(test = map(data, ~lm(Estimate ~ Study, data = .)),
+         sumry = map(test, broom::tidy),
+         stat = map(test, broom::glance))%>%
+  dplyr::select(sumry, stat)%>%
   unnest()%>%
-  tstats()
-  
-  
-# plot
+  select(Taxa:r.squared)
+```
+
+Plotting diversity across studies: 
+
+```{r fig.height=6}
 
 div_year%>%
   ggplot(aes(Taxa, Estimate, fill = Study))+
@@ -316,11 +316,13 @@ div_year%>%
 ggsave(last_plot(), filename = "./Figures and Tables/figure2.png", height = 6, width = 8, dpi = 300)  
 ```
 
-The first order diversity of both taxa has increased *significantly* across the two surveys.
+The first order diversity of both taxa has increased across the two surveys. SIgnificantly for birds but not for butterflies. Likely due to low sampling effort.
 
 # Change in composition of species accross years
 
-```{r results=F, fig.height=8}
+Turn over of each taxa across studies:
+
+```{r fig.show='hide', results='hide', fig.height=8}
 # sample info
 
 samp_birds <- abn%>%
@@ -336,9 +338,7 @@ samp_butterfly <- abn%>%
   dplyr::select(Study, Taxa, Transect, Habitat)%>%
   distinct()%>%
   mutate(sample = paste(Study, "_", Transect))
-```
 
-```{r}
 # Similarity matrix by studies
 
 sim_birds <- abn%>%
@@ -393,18 +393,19 @@ ord <- bind_rows(ord_birds, ord_butterfly)
 
 ```
 
-```{r}
-#Testing change in composition of birds
+Testing change in composition of birds :
 
+```{r}
 adonis(veg_birds ~ Study, data = samp_birds)
 ```
 
-```{r}
-#Testing change in composition of butterflies
+Testing change in composition of butterflies:
 
+```{r}
 adonis(veg_butterfly ~ Study, data = samp_butterfly)
 ```
 
+NMDS ordination plot:
 ```{r fig.height=6}
 # plotting
 
@@ -426,6 +427,8 @@ Both bird and butterfly communities compositions are *significantly* different c
 # Change in niche width of community
 
 ## Trophic Guilds
+
+Diversity across trophic guilds:
 
 ```{r fig.height=8}
 # compiling trophic guild data
@@ -461,21 +464,27 @@ guilds%>%
   skimr::skim(Estimate)%>%
   skimr::yank("numeric")%>%
   dplyr::select(Taxa, Guild, Study, mean, sd)
+```
 
-# t - test
+Linear model testing change in guild diversity:
 
+```{r fig.height=8}
 guilds%>%
   filter(Guild != "Liana Specialist")%>% #removing due to lack of obs
   complete(nesting(Study, Taxa), Transect, Guild, fill = list(H = 0))%>%
   group_by(Taxa, Guild)%>%
   nest()%>%
-  mutate(test = map(data, ~t.test(Estimate ~ Study, data = .)),
-         sumry = map(test, broom::tidy))%>%
-  dplyr::select(sumry)%>%
+  mutate(test = map(data, ~lm(Estimate ~ Study, data = .)),
+         sumry = map(test, broom::tidy),
+         stat = map(test, broom::glance))%>%
+  dplyr::select(sumry, stat)%>%
   unnest()%>%
-  tstats()
+  dplyr::select(Taxa:r.squared)
+```
 
-# plot
+Plotting guild diversity across years:
+
+```{r fig.height=8}
 guilds%>%
   ggplot(aes(reorder(Guild, Estimate), Estimate, fill = Study))+
   geom_boxplot(width = 0.25, alpha = 0.5, position = position_dodge(preserve = "single"))+
@@ -494,8 +503,10 @@ Carnivorous, Grainivorous birds have reduced in the comunity, compared to insect
 
 ## Trophic niche
 
+Trophic specialisation based on Juliard et al. 2006
+
 ```{r}
-# trophic specialisation based on Juliard et al. 2006
+# 
 
 butterflies_TSI <- host%>%
   mutate(H = length(unique(Hostplant.Family)))%>%
@@ -520,10 +531,9 @@ CSI.T <- abn%>%
   mutate(TSI = ifelse(is.na(TSI.x), TSI.y, TSI.x))%>%
   dplyr::select(Study, Transect, Taxa, Specific.Epithet, TSI)%>%
   summarise(CSI.T = mean(TSI, na.rm = T))
-```
 
-```{r}
 # summary
+
 CSI.T%>%
   group_by(Taxa, Study)%>%
   skimr::skim(CSI.T)%>%
@@ -531,17 +541,18 @@ CSI.T%>%
   dplyr::select(Taxa, Study, mean, sd)
 ```
 
-```{r}
-# t - test
+Linear model testing difference is trophic specialization:
 
+```{r}
 CSI.T%>%
   group_by(Taxa)%>%
   nest()%>%
-  mutate(test = map(data, ~t.test(CSI.T ~ Study, data = .)),
-         sumry = map(test, broom::tidy))%>%
-  dplyr::select(sumry)%>%
+  mutate(test = map(data, ~lm(CSI.T ~ Study, data = .)),
+         sumry = map(test, broom::tidy),
+         stat = map(test, broom::glance))%>%
+  dplyr::select(sumry, stat)%>%
   unnest()%>%
-  tstats()
+  dplyr::select(Taxa:r.squared)
 ```
 
 ```{r}
@@ -551,7 +562,6 @@ CSI.T%>%
   labs(y = "Community specialisation index \n (Trophic)")+
   scale_fill_brewer(palette = "Greys")+
   scale_y_sqrt()
-
 ```
 
 Niche width of the community did not change over the two studies.
@@ -578,10 +588,9 @@ CSI.H <- abn%>%
   left_join(HSI, by = c("Study", "Specific.Epithet"))%>%
   dplyr::select(Study, Transect, Taxa, Specific.Epithet, HSI)%>%
   summarise(CSI.H = mean(HSI, na.rm = T))
-```
 
-```{r}
 # summary
+
 CSI.H%>%
   group_by(Taxa, Study)%>%
   skimr::skim(CSI.H)%>%
@@ -589,17 +598,18 @@ CSI.H%>%
   dplyr::select(Taxa, Study, mean, sd)
 ```
 
-```{r}
-# t - test
+Linear model testing for habitat specialisation:
 
+```{r}
 CSI.H%>%
   group_by(Taxa)%>%
   nest()%>%
-  mutate(test = map(data, ~t.test(CSI.H ~ Study, data = .)),
-         sumry = map(test, broom::tidy))%>%
-  dplyr::select(sumry)%>%
+  mutate(test = map(data, ~lm(CSI.H ~ Study, data = .)),
+         sumry = map(test, broom::tidy),
+         stat = map(test, broom::glance))%>%
+  dplyr::select(sumry, stat)%>%
   unnest()%>%
-  tstats()
+  dplyr::select(Taxa:r.squared)
 ```
 
 ```{r fig.height=6}
@@ -633,7 +643,7 @@ season%>%
 
 # Site Map
 
-```{r fig.height=8}
+```{r map-data}
 library(raster)
 library(sf)
 
@@ -656,9 +666,7 @@ lines <- points_sf%>%
   group_by(Transect)%>%
   summarise()%>%
   st_cast("LINESTRING")
-```
 
-```{r}
 # getting study extent
 
 study_ext <- st_bbox(points_sf)
@@ -736,8 +744,9 @@ tam_contours <- rasterToContour(tam_elev, levels = seq(0, 1000, 100))
 ```
 
 
-```{r results=F,include=F}
+```{r site-map, fig.show='hide'}
 # plotting site map
+
 library(tmap)
 library(cowplot) # for plot_grid() function - good to arrange multiple plots into a grid
 library(grid)
@@ -773,14 +782,14 @@ fig1a <- grid.grab()
 ```
 
 
-```{r results=F,include=F}
+```{r wls-inset, fig.show='hide'}
 # Tamhini WLS
 
 tm_shape(forest)+ #forested lands
   tm_polygons(col = "#81AF81", alpha = 0.5, border.col = NULL)+
-#tm_shape(tam_contours)+
- # tm_lines(col = "white", lty = "dotted")+
-  #tm_text(text = "level", auto.placement = T)+
+tm_shape(tam_contours)+
+  tm_lines(col = "white", lty = "dotted")+
+  tm_text(text = "level", auto.placement = T)+
 tm_shape(water)+
   tm_polygons(col = "#77A1CB", border.col = NULL)+
   tm_text(text = "name", remove.overlap = F, size = 0.5)+  
@@ -802,7 +811,8 @@ tm_shape(ext)+
 fig1b <- grid.grab()
 ```
 
-```{r results=F,include=F}
+
+```{r legend, fig.show='hide', fig.height=8}
 # legend
 
 tm_shape(forest)+
@@ -818,11 +828,10 @@ tm_shape(ext)+
   tm_layout(legend.only = T, asp = 1, legend.position = c(0.3,0.2), scale = 2)
 
 legend <- grid::grid.grab()
-
 ```
 
 
-```{r results=F,include=F}
+```{r india-inset, fig.show='hide'}
 # making inset map
 
 tamext <- st_as_sfc(tamhini_area + c(-.5,-.5, .5, .5)) 
@@ -838,11 +847,10 @@ tm_shape(tamext)+
   tm_layout(scale = 1.5, bg.color = "#77A1CB", asp = 1)
 
 fig1c <- grid.grab()
-
 ```
 
 
-```{r fig.height=8}
+```{r map-plot, fig.height=8, fig.width=8}
 # making final map
 
 library(gridExtra)
