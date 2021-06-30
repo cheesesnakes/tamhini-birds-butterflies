@@ -2,7 +2,7 @@
 title: "Shifts in bird and butterfly communities of Tamhini Ghat"
 output:
   rmdformats::robobook:
-    codefolding: hide
+    code_folding: hide
     css: style.css
     df_print: kable
     subtitle: Analysis for manuscript
@@ -246,6 +246,8 @@ Fewer species were encountered in sites with lower effort in the previous study,
 # Function to caluculate Shannon diversity
 
 shanon <- function(c){
+  ## c is a vector of species abundances in a site 
+  ## Spade cannont compute n < 20
   
   if(sum(c) < 20){
     
@@ -676,7 +678,7 @@ tamhini_raw <- opq(bbox = study_ext, timeout = 100)%>%
   
 tamhini <- tamhini_raw$osm_multipolygons
 
-st_crs(tamhini) <- 4326
+st_crs(tamhini) <- "+init=epsg:4326"
 
 # Roads
 
@@ -699,9 +701,13 @@ landuse_raw <- opq(bbox = tamhini_area, timeout = 100)%>%
   unique_osmdata()
   
 forest <- landuse_raw$osm_polygons%>%
+  filter(natural %in% c("wood", "tree"))
+
+wood <- landuse_raw$osm_multipolygons%>%
   filter(natural == "wood")
 
-water <- landuse_raw$osm_multipolygons
+water <- landuse_raw$osm_multipolygons%>%
+  filter(natural == "water")
 
 water_small <- landuse_raw$osm_polygons%>%
   filter(natural == "water")
@@ -722,8 +728,9 @@ st_crs(waterways) <- 4326
 # elevation 
 
 library(elevatr)
+library(rgdal)
 
-tam_elev <- get_elev_raster(locations = tamhini, z = 8) # fix contours
+tam_elev <- get_elev_raster(locations = tamhini, z = 8) 
 
 tam_contours <- rasterToContour(tam_elev, levels = seq(0, 1000, 100))
 ```
@@ -739,9 +746,11 @@ library(grid)
 
 tm_shape(forest)+ #forested lands
   tm_polygons(col = "#81AF81", alpha = 0.5, border.col = NULL)+
-#tm_shape(tam_contours)+
- # tm_lines(col = "white", lty = "dotted")+
-  #tm_text(text = "level", auto.placement = T)+
+tm_shape(wood)+ #forested lands
+  tm_polygons(col = "#81AF81", alpha = 0.5, border.col = NULL)+
+tm_shape(tam_contours)+
+  tm_lines(col = "white", lty = "dotted")+
+  tm_text(text = "level", auto.placement = T)+
 tm_shape(water)+
   tm_polygons(col = "#77A1CB", border.col = NULL)+
 tm_shape(waterways)+
@@ -819,6 +828,8 @@ legend <- grid::grid.grab()
 tamext <- st_as_sfc(tamhini_area + c(-.5,-.5, .5, .5)) 
 
 india <- read_sf("./Data/India-States.shp")
+
+tmap_options(check.and.fix = TRUE)
 
 tm_shape(india)+
   tm_polygons(col = "#ffdb9c")+
