@@ -486,6 +486,7 @@ Plotting guild diversity across years:
 
 ```{r fig.height=8}
 guilds%>%
+  filter(Guild != "Liana Specialist")%>%
   ggplot(aes(reorder(Guild, Estimate), Estimate, fill = Study))+
   geom_boxplot(width = 0.25, alpha = 0.5, position = position_dodge(preserve = "single"))+
   labs(y = "Effective number of species", x = "Trophic Guild")+
